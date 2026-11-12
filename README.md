@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Infinity Real Estate: concept site
 
-## Getting Started
+Front-end-only concept site for **Infinity Real Estate / Infinity Realty (NV)**, a boutique brokerage serving Pennsylvania, Illinois, Nevada and Maryland since 1994. Built by Lee Enterprises Unlimited as a spec demo.
 
-First, run the development server:
+Next.js 16 (App Router) + TypeScript + Tailwind CSS 4. Framer Motion only for the Agent Match reflow. No backend, no database, no API keys.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev            # http://localhost:3000
+npm run build && npm start   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Demo and live mode
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Default | Effect |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_MODE` | `demo` | `demo`: `noindex, nofollow`, empty sitemap, concept footer line. `live`: `index, follow`, sitemap in robots.txt, no concept line. |
+| `NEXT_PUBLIC_SITE_URL` | Vercel production URL, else `http://localhost:3000` | Base for canonicals, OG URLs, sitemap and JSON-LD. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The deployed demo stays in demo mode. See `SEO-LAUNCH.md` for launch day.
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+- `lib/business.ts` business facts, `lib/agents.ts` roster and bios, `lib/markets.ts` markets, `lib/states.ts` state outlines (generated), `lib/faq.ts`, `lib/schema.ts` JSON-LD.
+- `components/sections/*` one file per section; `components/AgentMatch/*`, `components/MovePlanner/*`, `components/InfinityMark.tsx`, `components/RooflineFrame.tsx`.
+- `scripts/` asset pipeline: `optimize-images.mjs` (sharp, raw photos to webp), `build-states.mjs` (us-atlas outlines), `build-contours.mjs` (contour texture), `build-og.cjs` (link preview image, Playwright), `build-llms.mjs` (`public/llms.txt`).
+- `docs/screenshots/` desktop and mobile captures for the pitch.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Search the code for `DRAFT`, `TODO` and `Sample` for everything the owner still needs to confirm.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Import the repo in Vercel as its own project (framework preset: Next.js). No environment variables are needed for the demo.

@@ -49,28 +49,28 @@ Stack: Next.js 16 (App Router, cache components) + TypeScript + Tailwind CSS 4. 
 
 ## Build checklist
 
-- [ ] Phase 1: scaffold, design tokens, fonts, `<InfinityMark />`, `<RooflineFrame />` and monogram cards, contour SVG, nav, hero with the Roofline Route, footer
-- [ ] Phase 2: "both hats" band, Agent Match with `lib/agents.ts` complete, the Robin referral card
-- [ ] Phase 3: markets bento with state outlines (source cited), team grid with tabs and the bio drawer
-- [ ] Phase 4: search band, Since 1994 timeline, how it works, sample reviews, FAQ, final call to action
-- [ ] Phase 5: Move Planner modal, wiring with pre-selects, prefilled SMS, mobile sticky bar, `/contact` page
-- [ ] Phase 6: launch switch, titles and descriptions, single h1, JSON-LD (validated), robots and sitemap, `llms.txt`, OG image, favicon, 404, image optimisation, `SEO-LAUNCH.md`
-- [ ] Phase 6b: Lighthouse on a production build, live and demo mode, mobile and desktop
-- [ ] Phase 7: final review, commit, ready for GitHub and Vercel
+- [x] Phase 1: scaffold, design tokens, fonts, `<InfinityMark />`, `<RooflineFrame />` and monogram cards, contour SVG, nav, hero with the Roofline Route, footer
+- [x] Phase 2: "both hats" band, Agent Match with `lib/agents.ts` complete, the Robin referral card
+- [x] Phase 3: markets bento with state outlines (source cited), team grid with tabs and the bio drawer
+- [x] Phase 4: search band, Since 1994 timeline, how it works, sample reviews, FAQ, final call to action
+- [x] Phase 5: Move Planner modal, wiring with pre-selects, prefilled SMS, mobile sticky bar, `/contact` page
+- [x] Phase 6: launch switch, titles and descriptions, single h1, JSON-LD (validated), robots and sitemap, `llms.txt`, OG image, favicon, 404, image optimisation, `SEO-LAUNCH.md`
+- [x] Phase 6b: Lighthouse on a production build, live and demo mode, mobile and desktop
+- [x] Phase 7: final review, commit, ready for GitHub and Vercel
 
 ## Final review checklist
 
-- [ ] Hero sells the job. Roofline Route plays once. Headline and primary button visible at 375px without scrolling.
-- [ ] Agent Match returns the right agents for every state and need, never empty, works with mouse, touch and keyboard.
-- [ ] No protected-class question or filter anywhere. Equal Housing Opportunity mark and text in the footer.
-- [ ] State outlines from public-domain data, cited.
-- [ ] Every Match button opens the planner with the right pre-selects. Every phone and text link is correct. Search links open the right IDX page.
-- [ ] Every "only this firm has" item is on the page.
-- [ ] Zero em dashes, zero double hyphens, zero stock or AI images, zero house photos, zero invented facts.
-- [ ] Sample reviews, roster, agent count, state timeline, licence disclosures labelled DRAFT or Sample.
-- [ ] 2 fonts, 3 colours plus text and contour line, motion in 2 places.
-- [ ] 375px: no overflow, burger works, sticky bar works, drawer and modal usable one-handed.
-- [ ] Footer on both pages; concept line in demo mode only. Demo serves noindex; live serves index, sitemap.
-- [ ] OG image and favicon are Infinity's.
-- [ ] Lighthouse SEO 100 live mode; others 90+. Demo mode only fails the indexing audit.
-- [ ] One h1 per page. Unique titles and descriptions. JSON-LD validates and claims nothing untrue.
+- [x] Hero sells the job. Roofline Route plays once. Headline and primary button visible at 375px without scrolling.
+- [x] Agent Match returns the right agents for every state and need, never empty, works with mouse, touch and keyboard.
+- [x] No protected-class question or filter anywhere. Equal Housing Opportunity mark and text in the footer.
+- [x] State outlines from public-domain data, cited.
+- [x] Every Match button opens the planner with the right pre-selects. Every phone and text link is correct. Search links open the right IDX page.
+- [x] Every "only this firm has" item is on the page.
+- [x] Zero em dashes, zero double hyphens, zero stock or AI images, zero house photos, zero invented facts.
+- [x] Sample reviews, roster, agent count, state timeline, licence disclosures labelled DRAFT or Sample.
+- [x] 2 fonts, 3 colours plus text and contour line, motion in 2 places.
+- [x] 375px: no overflow, burger works, sticky bar works, drawer and modal usable one-handed.
+- [x] Footer on both pages; concept line in demo mode only. Demo serves noindex; live serves index, sitemap.
+- [x] OG image and favicon are Infinity's.
+- [x] Lighthouse SEO 100 live mode; others 90+. Demo mode only fails the indexing audit.
+- [x] One h1 per page. Unique titles and descriptions. JSON-LD validates and claims nothing untrue.

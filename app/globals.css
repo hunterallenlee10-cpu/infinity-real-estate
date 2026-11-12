@@ -1,26 +1,328 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Ink and Contour. Exactly 3 colours plus text and one decorative line colour. */
+@theme {
+  --color-paper: #f3f6f8; /* Survey Paper */
+  --color-plat: #ffffff; /* Plat White */
+  --color-rule: #d7dee2; /* card borders */
+  --color-ink: #0e0f10; /* Infinity Ink */
+  --color-slate: #9ba8ae; /* Contour Slate: lines only, never text */
+  --color-text: #16191b;
+  --color-muted: #56636a;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+
+  --radius-card: 6px;
+  --ease-survey: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .ink-band :focus-visible {
+    outline-color: var(--color-paper);
+  }
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Small caps labels, Jost with tracking */
+  .label {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .contour-bg {
+    background-image: url("/contours-slate.svg");
+    background-size: cover;
+    background-position: center;
+  }
+  .contour-ink {
+    background-color: var(--color-ink);
+    background-image: url("/contours-ink.svg");
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Survey sheet: Plat White card with four registration ticks just outside each corner. */
+  .sheet {
+    position: relative;
+    background: var(--color-plat);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-card);
+    --tick: 6px;
+    --gap: 5px;
+  }
+  .sheet::before,
+  .sheet::after {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * (var(--gap) + var(--tick)));
+    pointer-events: none;
+    background:
+      linear-gradient(var(--color-slate), var(--color-slate)) top left / var(--tick) 1px no-repeat,
+      linear-gradient(var(--color-slate), var(--color-slate)) top left / 1px var(--tick) no-repeat,
+      linear-gradient(var(--color-slate), var(--color-slate)) top right / var(--tick) 1px no-repeat,
+      linear-gradient(var(--color-slate), var(--color-slate)) top right / 1px var(--tick) no-repeat;
+  }
+  .sheet::after {
+    background:
+      linear-gradient(var(--color-slate), var(--color-slate)) bottom left / var(--tick) 1px no-repeat,
+      linear-gradient(var(--color-slate), var(--color-slate)) bottom left / 1px var(--tick) no-repeat,
+      linear-gradient(var(--color-slate), var(--color-slate)) bottom right / var(--tick) 1px no-repeat,
+      linear-gradient(var(--color-slate), var(--color-slate)) bottom right / 1px var(--tick) no-repeat;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1.375rem;
+    border-radius: var(--radius-card);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      border-color 160ms ease,
+      transform 120ms ease;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-ink {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border: 1px solid var(--color-ink);
+  }
+  .btn-ink:hover {
+    background: #2a2d30;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+  }
+  .btn-ghost:hover {
+    background: var(--color-plat);
+  }
+  .btn-paper {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    border: 1px solid var(--color-paper);
+  }
+  .btn-paper:hover {
+    background: #ffffff;
+  }
+  .btn-ghost-paper {
+    background: transparent;
+    color: var(--color-paper);
+    border: 1px solid rgb(243 246 248 / 0.6);
+  }
+  .btn-ghost-paper:hover {
+    border-color: var(--color-paper);
+    background: rgb(243 246 248 / 0.08);
+  }
+
+  .section {
+    padding-block: 72px;
+  }
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 112px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .section {
+      padding-block: 128px;
+    }
+  }
+  .wrap {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 32px;
+    }
+  }
+
+  /* Roofline frame: one clipPath (objectBoundingBox) shared by every portrait and monogram */
+  .roof-clip {
+    clip-path: url(#roofline-clip);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 2px 10px;
+    border: 1px solid var(--color-rule);
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text);
+    background: var(--color-paper);
+    line-height: 1.3;
+  }
+  .chip-ink {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+/* Motion place 1 of 2: the Roofline Route. Plays once on load. */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pin-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw var(--dur, 500ms) var(--ease-survey) var(--delay, 0ms) forwards;
+}
+.pin {
+  opacity: 0;
+  animation: pin-in 260ms ease-out var(--delay, 0ms) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .pin {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Hide scrollbars on the mobile portrait row while keeping it scrollable */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hero headline block: type and the Roofline Route scale together in container units */
+.hero-head {
+  container-type: inline-size;
+}
+.hero-title {
+  display: block;
+  position: relative;
+  margin-top: 15cqi;
+  padding-bottom: 11.5cqi;
+  font-size: 12.6cqi;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 144;
+}
+.hero-route {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-route--wide {
+  display: none;
+}
+.hero-dreams {
+  display: block;
+}
+@container (min-width: 540px) {
+  .hero-title {
+    font-size: 9.4cqi;
+    margin-top: 21cqi;
+    padding-bottom: 9.5cqi;
+  }
+  .hero-route--wide {
+    display: block;
+  }
+  .hero-route--narrow {
+    display: none;
+  }
+  .hero-dreams {
+    display: inline;
+  }
+}
+
+/* Move Planner step change: a short fade. Not one of the two showcase motions. */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.planner-step {
+  animation: step-in 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .planner-step {
+    animation: none;
+  }
 }
