@@ -32,4 +32,8 @@ Search the code for `DRAFT`, `TODO` and `Sample` for everything the owner still 
 
 ## Deploy
 
-Import the repo in Vercel as its own project (framework preset: Next.js). No environment variables are needed for the demo.
+Live demo: https://infinity-real-estate-six.vercel.app (Vercel project `infinity-real-estate`, team `leu`).
+
+- `main` is the production branch. Every merge to `main` builds and goes live automatically.
+- Other branches and pull requests get preview deployments. Preview URLs are behind Vercel login (team default); the production URL is public.
+- No environment variables are needed for the demo. For launch, see `SEO-LAUNCH.md`.
