@@ -52,7 +52,7 @@ export function Monogram({
   label: string;
   size?: "sm" | "md" | "lg";
 }) {
-  const text = size === "lg" ? "text-[5.5rem]" : size === "sm" ? "text-[2.25rem]" : "text-[3.5rem]";
+  const text = size === "lg" ? "text-[3.25rem] md:text-[4.25rem]" : size === "sm" ? "text-[2.25rem]" : "text-[3.5rem]";
   return (
     <div role="img" aria-label={label} className="contour-bg absolute inset-0 flex items-center justify-center bg-plat">
       <span
@@ -122,5 +122,22 @@ export function RooflineFrame({
       {inner}
       {cap}
     </figure>
+  );
+}
+
+/** Decorative face for use inside buttons (phrasing content only, no accessible name of its own). */
+export function FaceChip({ agent, size = 48 }: { agent: Pick<Agent, "initials" | "photo">; size?: number }) {
+  const p = agent.photo;
+  return (
+    <span className="roof-clip relative block aspect-[4/5] overflow-hidden bg-plat" style={{ width: size }} aria-hidden="true">
+      {p ? (
+        <Image src={p.src} alt="" fill sizes={`${size}px`} className="object-cover" style={{ objectPosition: p.position }} />
+      ) : (
+        <span className="contour-bg absolute inset-0 flex items-center justify-center bg-plat">
+          <span className="font-display mt-[22%] text-[0.9rem] leading-none font-semibold text-ink">{agent.initials}</span>
+        </span>
+      )}
+      <Outline />
+    </span>
   );
 }

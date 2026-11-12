@@ -30,7 +30,7 @@ const scaleD = (d) => d.replace(/-?\d+(\.\d+)?/g, (n) => (parseFloat(n) * SCALE)
 const d = polys.map((p) => scaleD(path(p) || "")).join("");
 
 const svg = (stroke, opacity) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${PAD * SCALE} ${PAD * SCALE} ${(W - 2 * PAD) * SCALE} ${(H - 2 * PAD) * SCALE}" preserveAspectRatio="xMidYMid slice"><path d="${d}" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1.2" stroke-linejoin="round"/></svg>`;
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${PAD * SCALE} ${PAD * SCALE} ${(W - 2 * PAD) * SCALE} ${(H - 2 * PAD) * SCALE}" preserveAspectRatio="xMidYMid slice"><path d="${d}" fill="none" stroke="${stroke}" stroke-opacity="${opacity}" stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`;
 await writeFile("public/contours-slate.svg", svg("#9BA8AE", 0.42));
 await writeFile("public/contours-ink.svg", svg("#FFFFFF", 0.12));
 console.log("contours", d.length, "chars");
