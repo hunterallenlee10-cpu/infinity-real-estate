@@ -306,3 +306,23 @@
     display: inline;
   }
 }
+
+/* Move Planner step change: a short fade. Not one of the two showcase motions. */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.planner-step {
+  animation: step-in 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .planner-step {
+    animation: none;
+  }
+}
