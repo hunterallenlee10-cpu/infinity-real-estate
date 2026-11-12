@@ -21,7 +21,7 @@ export function AgentMatchSection() {
         {/* DRAFT: confirm Robin is happy to be featured as a referral partner */}
         <aside
           aria-labelledby="coast-title"
-          className="sheet mt-16 grid grid-cols-[96px_1fr] items-center gap-5 p-5 md:grid-cols-[120px_1fr_auto] md:gap-8 md:p-7"
+          className="sheet mt-16 grid grid-cols-[96px_1fr] items-center gap-5 p-5 md:grid-cols-[120px_1fr] md:gap-8 md:p-7 lg:grid-cols-[120px_1fr_auto]"
         >
           <RooflineFrame
             photo={{ src: referral.photo, w: referral.photoW, h: referral.photoH, alt: referral.alt, position: "45% 20%" }}
@@ -37,7 +37,7 @@ export function AgentMatchSection() {
               oceanfront condos and beach homes in Myrtle Beach, SC.
             </p>
           </div>
-          <a href={referral.tel} className="btn btn-ghost col-span-2 md:col-span-1">
+          <a href={referral.tel} className="btn btn-ghost col-span-2 md:col-span-1 md:col-start-2 md:justify-self-start lg:col-start-auto">
             <Phone aria-hidden="true" size={18} strokeWidth={1.5} />
             Call Robin {referral.phoneDisplay}
           </a>

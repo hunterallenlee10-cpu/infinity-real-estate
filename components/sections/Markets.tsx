@@ -6,10 +6,11 @@ import { agentsInState } from "@/lib/agents";
 import { markets, type Market } from "@/lib/markets";
 
 const LAYOUT: Record<Market["code"], { tile: string; outline: string }> = {
-  NV: { tile: "md:col-span-7 md:min-h-[440px]", outline: "md:h-64 md:w-64" },
-  PA: { tile: "md:col-span-5 md:min-h-[440px]", outline: "md:h-44 md:w-44" },
-  IL: { tile: "md:col-span-5", outline: "md:h-44 md:w-44" },
-  MD: { tile: "md:col-span-7", outline: "md:h-44 md:w-44" },
+  // Equal 2x2 on tablets; the unequal bento (Nevada largest) from lg up.
+  NV: { tile: "md:col-span-6 lg:col-span-7 lg:min-h-[420px]", outline: "lg:h-32 lg:w-32" },
+  PA: { tile: "md:col-span-6 lg:col-span-5 lg:min-h-[420px]", outline: "lg:h-24 lg:w-24" },
+  IL: { tile: "md:col-span-6 lg:col-span-5", outline: "lg:h-24 lg:w-24" },
+  MD: { tile: "md:col-span-6 lg:col-span-7", outline: "lg:h-24 lg:w-24" },
 };
 
 // Bento order: Nevada (largest, five agents) first, then PA, IL, MD.
@@ -40,18 +41,21 @@ export function Markets() {
             const peg = m.code === "MD" ? team[0] : null;
             return (
               <li key={m.code} id={m.slug} className={`sheet relative flex scroll-mt-28 flex-col overflow-hidden p-6 md:p-8 ${LAYOUT[m.code].tile}`}>
-                <StateOutline
-                  slug={m.slug}
-                  contour
-                  className={`pointer-events-none absolute top-5 right-4 h-20 w-20 opacity-90 md:top-auto md:-right-4 md:-bottom-4 ${LAYOUT[m.code].outline}`}
-                />
-                <div className="relative max-w-[30rem] pr-20 md:pr-0">
-                  <h3 className="text-[2rem] md:text-[2.5rem]">
+                {/* Outline sits in the header row, so it can never run under the text or buttons. */}
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="min-w-0 text-[1.875rem] lg:text-[2.5rem]">
                     {m.name}
                     <span className="label mt-2 block font-sans text-[0.75rem] font-medium tracking-[0.12em] text-muted">
                       {m.phrase}
                     </span>
                   </h3>
+                  <StateOutline
+                    slug={m.slug}
+                    contour
+                    className={`pointer-events-none h-16 w-16 shrink-0 opacity-90 ${LAYOUT[m.code].outline}`}
+                  />
+                </div>
+                <div className="max-w-[36rem]">
                   <p className="mt-4 text-text">{intro(m)}</p>
                   {peg && (
                     <p className="mt-2 text-text">

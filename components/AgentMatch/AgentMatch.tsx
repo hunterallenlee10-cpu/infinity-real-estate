@@ -78,7 +78,7 @@ export function AgentMatch() {
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
       <form className="space-y-8 self-start lg:sticky lg:top-28 lg:col-span-5" onSubmit={(e) => e.preventDefault()} aria-label="Agent Match">
         <Step n={1} legend="Where?">
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 gap-2.5 min-[360px]:grid-cols-2">
             {WEST_TO_EAST.map((code) => {
               const mk = marketByCode(code);
               const on = state === code;

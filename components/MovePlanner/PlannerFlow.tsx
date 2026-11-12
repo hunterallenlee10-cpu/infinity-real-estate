@@ -14,7 +14,18 @@ const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 const TITLES = ["What are you planning?", "Where?", "When?", "Your agent.", "Your info."];
 
-export function PlannerFlow({ prefill = {}, headingId, onClose }: { prefill?: Prefill; headingId: string; onClose?: () => void }) {
+export function PlannerFlow({
+  prefill = {},
+  headingId,
+  onClose,
+  stickyNav = false,
+}: {
+  prefill?: Prefill;
+  headingId: string;
+  onClose?: () => void;
+  /** In the modal, keep Back and Next pinned to the bottom of the scroll area */
+  stickyNav?: boolean;
+}) {
   const uid = useId();
   const [a, setA] = useState<PlannerAnswers>({
     plan: prefill.plan,
@@ -235,7 +246,11 @@ export function PlannerFlow({ prefill = {}, headingId, onClose }: { prefill?: Pr
         </div>
       </div>
 
-      <div className="mt-8 flex items-center justify-between gap-3 border-t border-rule pt-5">
+      <div
+        className={`mt-8 flex items-center justify-between gap-3 border-t border-rule pt-5 ${
+          stickyNav ? "sticky -bottom-5 z-10 -mx-5 bg-paper px-5 pb-5 sm:-bottom-7 sm:-mx-7 sm:px-7 sm:pb-7" : ""
+        }`}
+      >
         {step > 0 ? (
           <button type="button" onClick={() => go(step - 1)} className="btn btn-ghost !min-h-12">
             <ArrowLeft aria-hidden="true" size={18} strokeWidth={1.5} />

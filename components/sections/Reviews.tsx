@@ -23,9 +23,9 @@ export function Reviews() {
         <h2 id="reviews-title" className="mt-3 text-[2.5rem] md:text-[3.5rem]">
           What clients say.
         </h2>
-        <ul className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
+        <ul className="mt-12 grid max-w-2xl gap-8 lg:max-w-none lg:grid-cols-3 lg:gap-6">
           {SAMPLES.map((s, i) => (
-            <li key={i} className={`sheet flex flex-col p-6 md:p-7 ${i === 1 ? "md:mt-10" : ""}`}>
+            <li key={i} className={`sheet flex flex-col p-6 md:p-7 ${i === 1 ? "lg:mt-10" : ""}`}>
               <p className="label inline-block self-start rounded-[4px] border border-dashed border-muted px-2 py-1 text-[0.75rem] tracking-[0.08em] text-muted">
                 Sample review: replace with real Google or Zillow reviews
               </p>

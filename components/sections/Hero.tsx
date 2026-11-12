@@ -12,44 +12,47 @@ const CLUSTER = [
     caption: "Ellie Plante · NV",
     // never above native size: 01 is 1792px wide
     desk: "lg:absolute lg:left-[24%] lg:top-[9%] lg:z-20 lg:w-[52%]",
-    mob: "w-[188px]",
+    mob: "w-[188px] md:w-[168px]",
     sizes: "(min-width: 1024px) 340px, 188px",
     preload: true,
   },
   {
     slug: "shannon-davis",
     caption: "Shannon Davis · NV",
-    desk: "lg:absolute lg:left-[72%] lg:top-[1%] lg:z-10 lg:w-[28%] lg:rotate-[2deg]",
-    mob: "w-[150px]",
+    desk: "lg:absolute lg:left-[72%] lg:top-[1%] lg:z-30 lg:w-[28%] lg:rotate-[2deg]",
+    mob: "w-[150px] md:w-[128px]",
     sizes: "(min-width: 1024px) 190px, 150px",
   },
   {
     slug: "jenny-lynn-johnston",
     caption: "Jenny Lynn Johnston · NV",
     desk: "lg:absolute lg:left-[0%] lg:top-[50%] lg:z-30 lg:w-[31%] lg:-rotate-[1.5deg]",
-    mob: "w-[150px]",
+    mob: "w-[150px] md:w-[128px]",
     sizes: "(min-width: 1024px) 210px, 150px",
   },
   {
     slug: "joe-geeting",
     caption: "Joe Geeting · PA",
     desk: "lg:absolute lg:left-[73%] lg:top-[50%] lg:z-30 lg:w-[27%] lg:rotate-[1.5deg]",
-    mob: "w-[132px]",
+    mob: "w-[132px] md:w-[128px]",
     sizes: "(min-width: 1024px) 170px, 132px",
   },
   {
     slug: "peg-steich",
     caption: "Peg Steich · MD",
-    desk: "lg:absolute lg:left-[1%] lg:top-[5%] lg:z-10 lg:w-[25%] lg:-rotate-[2deg]",
-    mob: "w-[132px]",
+    desk: "lg:absolute lg:left-[1%] lg:top-[5%] lg:z-30 lg:w-[25%] lg:-rotate-[2deg]",
+    mob: "w-[132px] md:w-[128px]",
     sizes: "132px",
   },
 ] as const;
 
+// DRAFT: recount the agents once the roster is confirmed
+const FACTS = ["Since 1994", `4 states, ${AGENT_COUNT} local agents`, "Listing agent or buyer\u2019s agent"];
+
 export function Hero() {
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
-      <div className="wrap grid grid-cols-1 items-center gap-10 pt-6 pb-16 lg:grid-cols-12 lg:gap-8 lg:pt-16 lg:pb-28">
+      <div className="wrap grid grid-cols-1 items-center gap-10 pt-3 pb-16 sm:pt-6 lg:grid-cols-12 lg:gap-8 lg:pt-16 lg:pb-28">
         {/* Type */}
         <div className="hero-head relative z-10 min-w-0 lg:col-span-6">
           <h1 id="hero-title" className="font-semibold">
@@ -66,12 +69,12 @@ export function Hero() {
             </span>
           </h1>
 
-          <p className="mt-4 max-w-[46ch] text-[1.0625rem] leading-relaxed text-text sm:mt-2 md:text-[1.1875rem]">
+          <p className="mt-3 max-w-[46ch] text-[1rem] leading-relaxed text-text sm:mt-2 sm:text-[1.0625rem] md:text-[1.1875rem]">
             A boutique real estate firm in Pennsylvania, Illinois, Nevada and Maryland since 1994. Tell us where you are
             moving and we will put you with one local agent who handles it start to finish.
           </p>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
             <MatchButton className="btn btn-ink w-full sm:w-auto" prefill={{ source: "hero" }} />
             <a href={business.phone.tel} className="btn btn-ghost hidden sm:inline-flex">
               <Phone aria-hidden="true" size={18} strokeWidth={1.5} />
@@ -79,11 +82,12 @@ export function Hero() {
             </a>
           </div>
 
-          <ul className="label mt-9 hidden flex-wrap items-center gap-y-2 text-[0.75rem] tracking-[0.1em] text-ink sm:flex">
-            <li className="pr-3">Since 1994</li>
-            {/* DRAFT: recount once the roster is confirmed */}
-            <li className="border-l border-rule px-3">4 states, {AGENT_COUNT} local agents</li>
-            <li className="border-l border-rule pl-3">Listing agent or buyer&rsquo;s agent</li>
+          <ul className="label mt-9 hidden max-w-[34rem] grid-cols-3 text-[0.75rem] leading-snug tracking-[0.1em] text-ink sm:grid">
+            {FACTS.map((f, i) => (
+              <li key={f} className={i === 0 ? "pr-4" : "border-l border-rule px-4"}>
+                {f}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -92,7 +96,7 @@ export function Hero() {
           <div className="contour-bg pointer-events-none absolute inset-y-[-20%] right-[-40%] left-[-14%] hidden [mask-image:linear-gradient(to_right,transparent,black_30%),linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] [mask-composite:intersect] lg:block" aria-hidden="true" />
           <ul
             aria-label="Some of the Infinity agents"
-            className="no-scrollbar -mr-4 flex snap-x gap-3 overflow-x-auto pr-4 pb-2 lg:relative lg:mr-0 lg:block lg:aspect-[1/0.98] lg:overflow-visible lg:pr-0"
+            className="no-scrollbar -mr-4 flex snap-x gap-3 overflow-x-auto pr-4 pb-2 md:mr-0 md:justify-between md:overflow-visible md:pr-0 lg:relative lg:mr-0 lg:block lg:aspect-[1/0.98] lg:overflow-visible lg:pr-0"
           >
             {CLUSTER.map((c) => {
               const a = agentBySlug(c.slug)!;
@@ -110,10 +114,13 @@ export function Hero() {
               );
             })}
           </ul>
-          <ul className="label mt-6 flex flex-wrap gap-x-4 gap-y-2 text-[0.75rem] text-ink sm:hidden">
-            <li>Since 1994</li>
-            <li className="border-l border-rule pl-4">4 states, {AGENT_COUNT} agents</li>
-            <li>Listing agent or buyer&rsquo;s agent</li>
+          <ul className="label mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[0.75rem] text-ink sm:hidden">
+            {FACTS.map((f) => (
+              <li key={f} className="flex items-center gap-2">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 border border-ink" />
+                {f}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

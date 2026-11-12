@@ -98,7 +98,7 @@ export function StepWhere({
     <div className="space-y-5">
       <fieldset>
         <legend className="sr-only">State</legend>
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-1 gap-2.5 min-[360px]:grid-cols-2">
           {WEST_TO_EAST.map((c) => {
             const mk = marketByCode(c);
             return (
@@ -108,7 +108,7 @@ export function StepWhere({
               </Choice>
             );
           })}
-          <Choice name={`${id}-state`} checked={state === "other"} onChange={() => onState("other")} className="col-span-2">
+          <Choice name={`${id}-state`} checked={state === "other"} onChange={() => onState("other")} className="min-[360px]:col-span-2">
             Somewhere else
           </Choice>
         </div>
@@ -208,11 +208,11 @@ export function StepAgent({
           <p className="mt-1 text-muted">We will pass your request to the best person in your state.</p>
         </div>
       ) : (
-        <div className="sheet grid grid-cols-[96px_1fr] items-center gap-5 p-4">
+        <div className="sheet grid grid-cols-[72px_1fr] items-center gap-4 p-4 sm:grid-cols-[96px_1fr] sm:gap-5">
           <RooflineFrame agent={agent} sizes="96px" monogramSize="sm" />
           <div>
             <p className="label text-[0.75rem] text-muted">Your agent</p>
-            <p className="font-display text-[1.5rem] leading-tight font-semibold text-ink">{agent.name}</p>
+            <p className="font-display text-[1.25rem] leading-tight font-semibold text-ink sm:text-[1.5rem]">{agent.name}</p>
             <p className="mt-0.5 text-[0.9375rem] text-muted">
               {[agent.title, agent.experience !== "Not listed" ? agent.experience : null].filter(Boolean).join(" · ")}
             </p>

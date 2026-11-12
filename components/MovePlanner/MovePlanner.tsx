@@ -27,7 +27,7 @@ export function MovePlanner({ prefill, onClose }: { prefill: Prefill; onClose: (
           </button>
         </div>
         <div className="flex-1 overflow-y-auto overscroll-contain px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-7 sm:pt-6 sm:pb-7">
-          <PlannerFlow prefill={prefill} headingId="planner-title" onClose={onClose} />
+          <PlannerFlow prefill={prefill} headingId="planner-title" onClose={onClose} stickyNav />
         </div>
       </div>
     </div>

@@ -41,10 +41,10 @@ export function AgentDrawer({ agent, onClose }: { agent: Agent; onClose: () => v
         </div>
 
         <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-6 md:px-8">
-          <div className="grid grid-cols-[120px_1fr] items-end gap-5">
+          <div className="grid grid-cols-[88px_1fr] items-end gap-4 sm:grid-cols-[120px_1fr] sm:gap-5">
             <RooflineFrame agent={agent} sizes="120px" monogramSize="sm" />
             <div>
-              <h2 id={titleId} className="text-[1.875rem] leading-tight">
+              <h2 id={titleId} className="text-[1.5rem] leading-tight sm:text-[1.875rem]">
                 {agent.name}
               </h2>
               {agent.slug === "sylwia-baker" && <p className="text-muted">Pronounced Sylvia</p>}

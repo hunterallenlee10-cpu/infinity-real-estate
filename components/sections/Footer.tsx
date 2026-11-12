@@ -8,8 +8,8 @@ import { markets } from "@/lib/markets";
 export function Footer() {
   return (
     <footer className="border-t border-rule bg-plat pb-24 md:pb-0">
-      <div className="wrap grid gap-12 py-16 md:grid-cols-12 md:py-20">
-        <div className="md:col-span-4">
+      <div className="wrap grid gap-12 py-16 md:grid-cols-2 md:py-20 lg:grid-cols-12">
+        <div className="lg:col-span-4">
           <Link href="/" aria-label="Infinity Real Estate, home" className="inline-block text-ink">
             <InfinityMark title={null} className="h-16 w-auto" />
           </Link>
@@ -17,11 +17,11 @@ export function Footer() {
           <p className="mt-2 text-muted">{business.displayName}. Since 1994.</p>
         </div>
 
-        <div className="md:col-span-4">
+        <div className="lg:col-span-4">
           <p className="label text-muted">Call or text the main line</p>
           <a
             href={business.phone.tel}
-            className="font-display mt-2 block text-[2.25rem] leading-tight font-semibold text-ink hover:underline md:text-[2.5rem]"
+            className="font-display mt-2 block text-[2.25rem] leading-tight font-semibold whitespace-nowrap text-ink hover:underline md:text-[2.5rem]"
           >
             {business.phone.display}
           </a>
@@ -29,7 +29,7 @@ export function Footer() {
             <a href={business.phone.sms} className="inline-flex min-h-11 items-center font-medium text-ink underline underline-offset-4">
               Text {business.phone.display}
             </a>
-            <a href={`mailto:${business.email}`} className="inline-flex min-h-11 items-center break-all font-medium text-ink underline underline-offset-4">
+            <a href={`mailto:${business.email}`} className="inline-flex min-h-11 items-center font-medium [overflow-wrap:anywhere] text-ink underline underline-offset-4">
               {business.email}
             </a>
           </p>
@@ -43,7 +43,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-4">
+        <div className="lg:col-span-4">
           <p className="label text-muted">Quick links</p>
           <ul className="mt-2 grid grid-cols-2 gap-x-4">
             {nav.map((n) => (

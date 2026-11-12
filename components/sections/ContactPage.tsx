@@ -36,7 +36,13 @@ export function ContactPage() {
                 <a href={t.href} className="sheet group flex h-full flex-col p-6 transition-colors hover:border-ink">
                   <t.icon aria-hidden="true" size={22} strokeWidth={1.5} className="text-ink" />
                   <span className="label mt-4 text-muted">{t.label}</span>
-                  <span className="font-display mt-1 text-[1.5rem] leading-tight font-semibold break-all text-ink md:text-[1.625rem]">
+                  <span
+                    className={`mt-1 leading-tight font-semibold text-ink ${
+                      t.label === "Email"
+                        ? "text-[1.0625rem] [overflow-wrap:anywhere] lg:text-[1.1875rem]"
+                        : "font-display text-[1.375rem] whitespace-nowrap lg:text-[1.625rem]"
+                    }`}
+                  >
                     {t.value}
                   </span>
                   <span className="mt-2 text-[0.9375rem] text-muted">{t.note}</span>

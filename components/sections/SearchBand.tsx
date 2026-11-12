@@ -11,14 +11,14 @@ const LINKS = [
 export function SearchBand() {
   return (
     <section id="search" aria-labelledby="search-title" className="scroll-mt-20 border-y border-rule bg-plat py-14 md:py-16">
-      <div className="wrap grid items-center gap-8 lg:grid-cols-12">
-        <div className="lg:col-span-4">
+      <div className="wrap grid items-center gap-8 xl:grid-cols-12">
+        <div className="xl:col-span-4">
           <h2 id="search-title" className="text-[2rem] md:text-[2.5rem]">
             Search live MLS listings.
           </h2>
           <p className="mt-2 text-muted">Live search runs on Infinity&rsquo;s existing MLS feed.</p>
         </div>
-        <ul className="grid gap-3 sm:grid-cols-3 lg:col-span-8">
+        <ul className="grid gap-3 md:grid-cols-3 xl:col-span-8">
           {LINKS.map((l) => (
             <li key={l.href + l.label}>
               <a
