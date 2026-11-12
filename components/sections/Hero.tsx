@@ -66,7 +66,7 @@ export function Hero() {
             </span>
           </h1>
 
-          <p className="max-w-[46ch] text-[1.0625rem] leading-relaxed text-text md:text-[1.1875rem]">
+          <p className="mt-4 max-w-[46ch] text-[1.0625rem] leading-relaxed text-text sm:mt-2 md:text-[1.1875rem]">
             A boutique real estate firm in Pennsylvania, Illinois, Nevada and Maryland since 1994. Tell us where you are
             moving and we will put you with one local agent who handles it start to finish.
           </p>

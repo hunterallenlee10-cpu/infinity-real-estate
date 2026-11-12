@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- CommonJS so the preinstalled global Playwright resolves */
 // Renders public/og-image.png (1200x630) with Playwright: Survey Paper, contour lines, the InfinityMark,
 // the headline and three roofline-framed faces (01 Ellie, 02 Jenny, 09 Joe). Run: node scripts/build-og.cjs
 const { chromium } = require("playwright");

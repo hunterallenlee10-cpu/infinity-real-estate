@@ -13,8 +13,10 @@ const TILES = [
 export function ContactPage() {
   return (
     <>
-      <section aria-labelledby="contact-title" className="contour-bg border-b border-rule">
-        <div className="wrap pt-12 pb-14 md:pt-20 md:pb-20">
+      <section aria-labelledby="contact-title" className="relative border-b border-rule">
+        {/* Texture on larger screens only: on phones it became the LCP element. */}
+        <div aria-hidden="true" className="contour-bg pointer-events-none absolute inset-0 hidden md:block" />
+        <div className="wrap relative pt-12 pb-14 md:pt-20 md:pb-20">
           <h1 id="contact-title">
             <span className="label block max-w-[52ch] font-sans text-[0.75rem] font-medium tracking-[0.16em] text-muted md:text-[0.8125rem]">
               Contact Infinity Real Estate, real estate agents in Pennsylvania, Illinois, Nevada and Maryland

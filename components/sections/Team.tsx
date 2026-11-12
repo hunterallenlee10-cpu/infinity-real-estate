@@ -113,7 +113,7 @@ export function Team() {
                 </button>
               </li>
             ))}
-            <li className="sheet contour-bg flex flex-col justify-end p-5 md:p-6">
+            <li className="sheet contour-bg col-span-2 flex flex-col justify-end p-5 md:col-span-1 md:p-6">
               <p className="font-display text-[1.375rem] leading-tight font-semibold text-ink md:text-[1.625rem]">
                 Not sure who to call?
               </p>

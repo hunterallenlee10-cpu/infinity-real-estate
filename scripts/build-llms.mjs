@@ -10,7 +10,7 @@ register(
     ),
 );
 const { agents } = await import("../lib/agents.ts");
-const { business, idx, referral } = await import("../lib/business.ts");
+const { business, referral } = await import("../lib/business.ts");
 const { markets } = await import("../lib/markets.ts");
 const { faq } = await import("../lib/faq.ts");
 

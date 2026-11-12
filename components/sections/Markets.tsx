@@ -43,9 +43,9 @@ export function Markets() {
                 <StateOutline
                   slug={m.slug}
                   contour
-                  className={`pointer-events-none absolute -right-4 -bottom-4 h-36 w-36 opacity-90 ${LAYOUT[m.code].outline}`}
+                  className={`pointer-events-none absolute top-5 right-4 h-20 w-20 opacity-90 md:top-auto md:-right-4 md:-bottom-4 ${LAYOUT[m.code].outline}`}
                 />
-                <div className="relative max-w-[30rem]">
+                <div className="relative max-w-[30rem] pr-20 md:pr-0">
                   <h3 className="text-[2rem] md:text-[2.5rem]">
                     {m.name}
                     <span className="label mt-2 block font-sans text-[0.75rem] font-medium tracking-[0.12em] text-muted">

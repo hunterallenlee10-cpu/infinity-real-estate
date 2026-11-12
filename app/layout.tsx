@@ -49,7 +49,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <MobileBar />
           <BackToTop />
         </PlannerProvider>
-        <Analytics />
+        {/* Only on Vercel, where /_vercel/insights exists. Locally it would 404. */}
+        {process.env.VERCEL ? <Analytics /> : null}
       </body>
     </html>
   );
