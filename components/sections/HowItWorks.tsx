@@ -1,31 +1,39 @@
 import { MatchButton } from "../MatchButton";
+import type { Prefill } from "../MovePlanner/types";
 
-const STEPS = [
+const DEFAULT_STEPS = [
   { t: "Tell us where.", d: "Pick your state and area, and what you are doing." },
   { t: "Meet your agent.", d: "One person, start to finish." },
   { t: "Buy, sell, or both at once.", d: "Your agent wears whichever hat the move needs." },
 ];
 
-export function HowItWorks() {
+export function HowItWorks({
+  title = "Three steps to the right agent.",
+  steps = DEFAULT_STEPS,
+  prefill = { source: "how-it-works" },
+}: {
+  title?: string;
+  steps?: { t: string; d: string }[];
+  prefill?: Prefill;
+}) {
   return (
     <section aria-labelledby="how-title" className="section border-t border-rule bg-plat">
       <div className="wrap">
-        <p className="label text-muted">How it works</p>
-        <h2 id="how-title" className="mt-3 text-[2.5rem] md:text-[3.5rem]">
-          Three steps to the right agent.
+        <h2 id="how-title" className="reveal max-w-[20ch] text-[length:var(--text-h2)]">
+          {title}
         </h2>
-        <ol className="mt-12 grid gap-8 md:grid-cols-3 md:gap-0">
-          {STEPS.map((s, i) => (
-            <li key={s.t} className="relative border-t border-ink pt-6 md:pr-10">
-              <span className="font-display block text-[3.5rem] leading-none font-semibold text-ink" aria-hidden="true">
+        <ol className="mt-8 grid gap-8 md:mt-12 md:grid-cols-3 md:gap-0">
+          {steps.map((s, i) => (
+            <li key={s.t} className="reveal relative border-t border-ink pt-5 md:pr-10">
+              <span className="font-display block text-[3rem] leading-none font-semibold text-ink md:text-[3.5rem]" aria-hidden="true">
                 {i + 1}
               </span>
-              <h3 className="mt-4 text-[1.5rem]">{s.t}</h3>
+              <h3 className="mt-3 text-[length:var(--text-h3)]">{s.t}</h3>
               <p className="mt-2 text-muted">{s.d}</p>
             </li>
           ))}
         </ol>
-        <MatchButton className="btn btn-ink mt-12" prefill={{ source: "how-it-works" }} />
+        <MatchButton className="btn btn-ink mt-10 w-full sm:w-auto" prefill={prefill} />
       </div>
     </section>
   );

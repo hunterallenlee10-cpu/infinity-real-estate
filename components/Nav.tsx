@@ -1,17 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Menu, Phone, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Menu, MessageSquare, Phone, X } from "lucide-react";
 import { InfinityMark } from "./InfinityMark";
 import { MatchButton } from "./MatchButton";
-import { business, nav } from "@/lib/business";
+import { business, nav, navWithContact } from "@/lib/business";
 
 export function Nav({ animateMark = false }: { animateMark?: boolean }) {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -26,8 +30,7 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
     const burger = burgerRef.current;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const first = sheetRef.current?.querySelector<HTMLElement>("a,button");
-    first?.focus();
+    sheetRef.current?.querySelector<HTMLElement>("button")?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenu(false);
       if (e.key === "Tab" && sheetRef.current) {
@@ -53,8 +56,8 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-[background-color,border-color,backdrop-filter] duration-200 ${
-        scrolled ? "border-b border-rule bg-white/92 backdrop-blur-md" : "border-b border-transparent bg-paper"
+      className={`sticky top-0 z-40 transition-[background-color,border-color] duration-200 ${
+        scrolled ? "border-b border-rule bg-plat/92 backdrop-blur-md" : "border-b border-transparent bg-paper"
       }`}
     >
       <div className="wrap flex h-[68px] items-center justify-between gap-4 md:h-[76px]">
@@ -62,13 +65,16 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
           <InfinityMark animate={animateMark} title={null} className="h-[46px] w-auto md:h-[52px]" />
         </Link>
 
-        <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-7">
+        <nav aria-label="Main" className="hidden xl:block">
+          <ul className="flex items-center gap-6">
             {nav.map((n) => (
               <li key={n.href}>
                 <Link
                   href={n.href}
-                  className="text-[0.9375rem] font-medium text-text underline-offset-[6px] hover:underline"
+                  aria-current={isActive(n.href) ? "page" : undefined}
+                  className={`inline-flex min-h-11 items-center text-[0.9375rem] font-medium underline-offset-[6px] hover:underline ${
+                    isActive(n.href) ? "text-ink underline decoration-clay decoration-2" : "text-text"
+                  }`}
                 >
                   {n.label}
                 </Link>
@@ -92,7 +98,7 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
         <button
           ref={burgerRef}
           type="button"
-          className="-mr-2 flex h-12 w-12 items-center justify-center text-ink lg:hidden"
+          className="-mr-2 flex h-12 w-12 items-center justify-center text-ink xl:hidden"
           aria-label="Open menu"
           aria-expanded={menu}
           aria-controls="mobile-menu"
@@ -102,52 +108,63 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
         </button>
       </div>
 
-      {menu && (
-        <div
-          id="mobile-menu"
-          ref={sheetRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu"
-          className="contour-bg fixed inset-0 z-50 flex flex-col bg-paper"
-        >
-          <div className="wrap flex h-[68px] items-center justify-between">
-            <InfinityMark title={null} className="h-[46px] w-auto text-ink" />
-            <button
-              type="button"
-              className="-mr-2 flex h-12 w-12 items-center justify-center text-ink"
-              aria-label="Close menu"
-              onClick={() => setMenu(false)}
-            >
-              <X aria-hidden="true" size={26} strokeWidth={1.5} />
-            </button>
-          </div>
-          <nav aria-label="Mobile" className="wrap mt-6 flex-1">
-            <ul className="border-t border-rule">
-              {nav.map((n) => (
-                <li key={n.href} className="border-b border-rule">
-                  <Link
-                    href={n.href}
-                    onClick={() => setMenu(false)}
-                    className="font-display flex min-h-16 items-center text-[1.75rem] font-medium text-ink"
-                  >
-                    {n.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div className="wrap grid gap-3 pb-8">
-            <a href={business.phone.tel} className="btn btn-ghost w-full">
-              <Phone aria-hidden="true" size={18} strokeWidth={1.5} />
-              Call {business.phone.display}
-            </a>
-            <div onClick={() => setMenu(false)}>
-              <MatchButton className="btn btn-ink w-full" />
+      {/* The sheet is portalled to <body>. Inside this header it would be trapped: the header's
+          backdrop blur makes it the containing block for fixed children, which shrank the menu to
+          the header's height once the page had been scrolled. */}
+      {menu &&
+        createPortal(
+          <div
+            id="mobile-menu"
+            ref={sheetRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="fixed inset-0 z-[70] flex flex-col overflow-y-auto overscroll-contain bg-paper"
+          >
+            <div className="wrap flex h-[68px] shrink-0 items-center justify-between">
+              <InfinityMark title={null} className="h-[46px] w-auto text-ink" />
+              <button
+                type="button"
+                className="-mr-2 flex h-12 w-12 items-center justify-center text-ink"
+                aria-label="Close menu"
+                onClick={() => setMenu(false)}
+              >
+                <X aria-hidden="true" size={26} strokeWidth={1.5} />
+              </button>
             </div>
-          </div>
-        </div>
-      )}
+            <nav aria-label="Mobile" className="wrap mt-2 flex-1">
+              <ul className="border-t border-rule">
+                {navWithContact.map((n) => (
+                  <li key={n.href} className="border-b border-rule">
+                    <Link
+                      href={n.href}
+                      onClick={() => setMenu(false)}
+                      aria-current={isActive(n.href) ? "page" : undefined}
+                      className="font-display flex min-h-[3.5rem] items-center justify-between text-[1.5rem] font-medium text-ink"
+                    >
+                      {n.label}
+                      {isActive(n.href) && <span aria-hidden="true" className="h-2 w-2 rotate-45 bg-clay" />}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="wrap grid shrink-0 grid-cols-2 gap-2.5 pt-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+              <a href={business.phone.tel} className="btn btn-ghost">
+                <Phone aria-hidden="true" size={18} strokeWidth={1.5} />
+                Call
+              </a>
+              <a href={business.phone.sms} className="btn btn-ghost">
+                <MessageSquare aria-hidden="true" size={18} strokeWidth={1.5} />
+                Text
+              </a>
+              <div className="col-span-2" onClick={() => setMenu(false)}>
+                <MatchButton className="btn btn-ink w-full" />
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
     </header>
   );
 }

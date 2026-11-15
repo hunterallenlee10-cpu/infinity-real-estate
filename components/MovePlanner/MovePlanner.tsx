@@ -11,14 +11,14 @@ export function MovePlanner({ prefill, onClose }: { prefill: Prefill; onClose: (
   const ref = useRef<HTMLDivElement>(null);
   useDialog(ref, onClose);
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-6">
+    <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6 [@media(max-height:560px)]:p-0">
       <div className="absolute inset-0 bg-ink/45" onClick={onClose} aria-hidden="true" />
       <div
         ref={ref}
         role="dialog"
         aria-modal="true"
         aria-labelledby="planner-title"
-        className="relative flex max-h-[100dvh] w-full flex-col overflow-hidden bg-paper sm:max-h-[min(860px,calc(100dvh-48px))] sm:max-w-[620px] sm:rounded-[8px] sm:border sm:border-rule"
+        className="relative flex max-h-[100dvh] w-full flex-col overflow-hidden bg-paper sm:max-h-[min(860px,calc(100dvh-48px))] sm:max-w-[620px] sm:rounded-[8px] sm:border sm:border-rule [@media(max-height:560px)]:h-[100dvh] [@media(max-height:560px)]:max-h-[100dvh] [@media(max-height:560px)]:max-w-none [@media(max-height:560px)]:rounded-none"
       >
         <div className="flex items-center justify-between border-b border-rule bg-plat px-5 py-2.5 sm:px-7">
           <p className="label text-ink">Move Planner</p>

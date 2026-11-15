@@ -74,9 +74,13 @@ export const referral = {
 };
 
 export const nav = [
-  { label: "Agents", href: "/#agents" },
-  { label: "Markets", href: "/#markets" },
-  { label: "Search Homes", href: "/#search" },
-  { label: "About", href: "/#about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Agents", href: "/agents" },
+  { label: "Markets", href: "/markets" },
+  { label: "Buy", href: "/buy" },
+  { label: "Sell", href: "/sell" },
+  { label: "Search homes", href: "/search" },
+  { label: "About", href: "/about" },
 ] as const;
+
+/** Footer and mobile menu add Contact; the desktop bar shows the phone and the Match button instead. */
+export const navWithContact = [...nav, { label: "Contact", href: "/contact" }] as const;

@@ -1,4 +1,5 @@
 import { Mail, MessageSquare, Phone } from "lucide-react";
+import { PageHero } from "../PageHero";
 import { PlannerFlow } from "../MovePlanner/PlannerFlow";
 import { agentsInState } from "@/lib/agents";
 import { business } from "@/lib/business";
@@ -13,29 +14,20 @@ const TILES = [
 export function ContactPage() {
   return (
     <>
-      <section aria-labelledby="contact-title" className="relative border-b border-rule">
-        {/* Texture on larger screens only: on phones it became the LCP element. */}
-        <div aria-hidden="true" className="contour-bg pointer-events-none absolute inset-0 hidden md:block" />
-        <div className="wrap relative pt-12 pb-14 md:pt-20 md:pb-20">
-          <h1 id="contact-title">
-            <span className="label block max-w-[52ch] font-sans text-[0.75rem] font-medium tracking-[0.16em] text-muted md:text-[0.8125rem]">
-              Contact Infinity Real Estate, real estate agents in Pennsylvania, Illinois, Nevada and Maryland
-            </span>{" "}
-            <span className="mt-5 block text-[3rem] leading-[1.02] md:text-[5rem]" style={{ fontVariationSettings: '"opsz" 144' }}>
-              Talk to a real person.
-            </span>
-          </h1>
-          <p className="mt-5 max-w-[50ch] text-[1.125rem] text-text">
-            Call, text or message Infinity Real Estate. We match you with a local agent in Pennsylvania, Illinois, Nevada or
-            Maryland. Main line {business.phone.display}.
-          </p>
-
-          <ul className="mt-10 grid gap-4 md:grid-cols-3">
+      <PageHero
+        crumbs={[{ name: "Home", href: "/" }, { name: "Contact" }]}
+        display="Talk to a real person."
+        headline="Contact Infinity Real Estate, real estate agents in Pennsylvania, Illinois, Nevada and Maryland."
+        lead={`Call, text or message us. We match you with a local agent. Main line ${business.phone.display}.`}
+      />
+      <section aria-label="Ways to reach us" className="pt-10 md:pt-14">
+        <div className="wrap">
+          <ul className="grid gap-4 md:grid-cols-3">
             {TILES.map((t) => (
               <li key={t.label}>
                 <a href={t.href} className="sheet group flex h-full flex-col p-6 transition-colors hover:border-ink">
                   <t.icon aria-hidden="true" size={22} strokeWidth={1.5} className="text-ink" />
-                  <span className="label mt-4 text-muted">{t.label}</span>
+                  <span className="mt-4 text-[0.9375rem] font-medium text-muted">{t.label}</span>
                   <span
                     className={`mt-1 leading-tight font-semibold text-ink ${
                       t.label === "Email"
@@ -56,8 +48,7 @@ export function ContactPage() {
       <section aria-label="Move Planner" className="section">
         <div className="wrap grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="label text-muted">Move Planner</p>
-            <p className="font-display mt-3 text-[2rem] leading-tight font-semibold text-ink md:text-[2.5rem]">
+            <p className="font-display text-[length:var(--text-h2)] leading-tight font-semibold text-ink">
               Five quick questions. One local agent.
             </p>
             <p className="mt-3 text-muted">

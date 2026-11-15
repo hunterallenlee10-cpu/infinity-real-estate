@@ -1,24 +1,24 @@
 // JSON-LD. Only true, published facts: no ratings, reviews, prices, awards, addresses or opening hours.
-import { agents } from "./agents";
+// Reviews about the business are never marked up on its own site.
+import { agents, hasPage, shortName, type Agent } from "./agents";
 import { SITE_URL, business } from "./business";
 import { faq } from "./faq";
+import type { Market } from "./markets";
 
 const ORG_ID = `${SITE_URL}/#organization`;
 export const OG_IMAGE = "/og-image.png";
 
+const STATE_AREAS = ["Pennsylvania", "Illinois", "Nevada", "Maryland"].map((name) => ({ "@type": "AdministrativeArea", name }));
 const AREAS = [
-  { "@type": "AdministrativeArea", name: "Pennsylvania" },
+  ...STATE_AREAS,
   { "@type": "AdministrativeArea", name: "Central Pennsylvania" },
   { "@type": "Place", name: "Philadelphia area" },
-  { "@type": "AdministrativeArea", name: "Illinois" },
   { "@type": "Place", name: "Chicagoland" },
-  { "@type": "AdministrativeArea", name: "Nevada" },
   { "@type": "City", name: "Las Vegas" },
   { "@type": "City", name: "Henderson" },
   { "@type": "City", name: "Boulder City" },
   { "@type": "City", name: "Pahrump" },
   { "@type": "Place", name: "Lake Las Vegas" },
-  { "@type": "AdministrativeArea", name: "Maryland" },
   { "@type": "AdministrativeArea", name: "Washington County, Maryland" },
   { "@type": "AdministrativeArea", name: "Frederick County, Maryland" },
 ];
@@ -45,77 +45,91 @@ function organization() {
   };
 }
 
-function people() {
-  return agents.map((a) => ({
+function person(a: Agent) {
+  return {
     "@type": "Person",
-    "@id": `${SITE_URL}/#agent-${a.slug}`,
+    "@id": `${SITE_URL}/agents#${a.slug}`,
     name: a.name.replace(/[“”]/g, '"'),
+    ...(hasPage(a) ? { url: `${SITE_URL}/agents/${a.slug}` } : {}),
     ...(a.title ? { jobTitle: a.title } : {}),
     ...(a.cell ? { telephone: `+1-${a.cell.display.replace(/[()]/g, "").replace(" ", "-")}` } : {}),
     ...(a.email ? { email: a.email } : {}),
     ...(a.photo ? { image: `${SITE_URL}${a.photo.src}` } : {}),
     knowsLanguage: a.languages.map((l) => LANG_CODES[l]),
     worksFor: { "@id": ORG_ID },
-  }));
+  };
 }
 
-function services() {
-  const items = [
-    { name: "Buyer representation", desc: "A local agent who guides buyers through every step of finding and buying a home." },
-    { name: "Seller representation", desc: "A local agent who handles listing and selling a home, with clear communication from list price to closing." },
-    {
-      name: "Investment and commercial real estate help",
-      desc: "Help with investment, rental and commercial property, and leasing, from agents with that experience in their own bios.",
-    },
-  ];
-  return items.map((s, i) => ({
-    "@type": "Service",
-    "@id": `${SITE_URL}/#service-${i + 1}`,
-    name: s.name,
-    serviceType: s.name,
-    description: s.desc,
-    provider: { "@id": ORG_ID },
-    areaServed: AREAS.filter((x) => ["Pennsylvania", "Illinois", "Nevada", "Maryland"].includes(x.name)),
-  }));
-}
-
-function faqPage() {
+function service(name: string, description: string, path: string, areas = STATE_AREAS) {
   return {
-    "@type": "FAQPage",
-    "@id": `${SITE_URL}/#faq`,
-    mainEntity: faq.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+    "@type": "Service",
+    "@id": `${SITE_URL}${path}#service`,
+    name,
+    serviceType: name,
+    description,
+    url: `${SITE_URL}${path}`,
+    provider: { "@id": ORG_ID },
+    areaServed: areas,
+  };
+}
+
+export type Crumb = { name: string; path: string };
+function breadcrumbs(items: Crumb[]) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: [{ name: "Home", path: "/" }, ...items].map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: `${SITE_URL}${c.path === "/" ? "/" : c.path}`,
     })),
   };
 }
 
+const faqPage = (items: { q: string; a: string }[], path: string) => ({
+  "@type": "FAQPage",
+  "@id": `${SITE_URL}${path}#faq`,
+  mainEntity: items.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+});
+
+const graph = (...nodes: object[]) => ({ "@context": "https://schema.org", "@graph": nodes });
+
 export function homeSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: business.name, publisher: { "@id": ORG_ID } },
-      organization(),
-      ...people(),
-      ...services(),
-      faqPage(),
-    ],
-  };
+  return graph(
+    { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: business.name, publisher: { "@id": ORG_ID } },
+    organization(),
+    faqPage(faq, "/"),
+  );
 }
 
-export function breadcrumbSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      organization(),
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Contact", item: `${SITE_URL}/contact` },
-        ],
-      },
-    ],
-  };
-}
+export const agentsSchema = () => graph(organization(), ...agents.map(person), breadcrumbs([{ name: "Agents", path: "/agents" }]));
+
+export const agentSchema = (a: Agent) =>
+  graph(
+    organization(),
+    person(a),
+    breadcrumbs([
+      { name: "Agents", path: "/agents" },
+      { name: shortName(a), path: `/agents/${a.slug}` },
+    ]),
+  );
+
+export const marketsSchema = () => graph(organization(), breadcrumbs([{ name: "Markets", path: "/markets" }]));
+
+export const marketSchema = (m: Market, items: { q: string; a: string }[]) =>
+  graph(
+    organization(),
+    service(`Real estate agent services in ${m.name}`, `${m.headline}. ${m.serviceArea}.`, `/markets/${m.slug}`, [
+      { "@type": "AdministrativeArea", name: m.name },
+    ]),
+    faqPage(items, `/markets/${m.slug}`),
+    breadcrumbs([
+      { name: "Markets", path: "/markets" },
+      { name: m.name, path: `/markets/${m.slug}` },
+    ]),
+  );
+
+export const servicePageSchema = (name: string, description: string, path: string, label: string, items: { q: string; a: string }[]) =>
+  graph(organization(), service(name, description, path), faqPage(items, path), breadcrumbs([{ name: label, path }]));
+
+export const simplePageSchema = (label: string, path: string) => graph(organization(), breadcrumbs([{ name: label, path }]));

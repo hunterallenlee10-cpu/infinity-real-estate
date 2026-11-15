@@ -404,3 +404,15 @@ export const AGENT_COUNT = agents.length;
 
 export const agentBySlug = (slug: string) => agents.find((a) => a.slug === slug);
 export const agentsInState = (state: StateCode) => agents.filter((a) => a.state === state);
+
+/** An agent gets a bio page only when they have published a bio. No page is built on guesses. */
+export const hasPage = (a: Agent) => a.bio.length > 0 || Boolean(a.bioList);
+export const agentsWithPages = agents.filter(hasPage);
+/** Name without nickname punctuation, for titles and headings: "Peg Steich", "Ellie Plante" */
+export const shortName = (a: Agent) => `${a.first} ${a.name.split(" ").slice(-1)[0]}`;
+export const agentMeta = (a: Agent) => [a.title, a.experience !== "Not listed" ? a.experience : null].filter(Boolean).join(" \u00b7 ");
+
+/** Wrap in quotes unless the line already quotes someone (Ellie's "tenacious negotiator"). */
+export function quoteText(q: string) {
+  return q.includes("\u201c") ? q : `\u201c${q}\u201d`;
+}

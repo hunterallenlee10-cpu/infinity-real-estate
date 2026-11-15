@@ -1,17 +1,34 @@
 @import "tailwindcss";
 
-/* Ink and Contour. Exactly 3 colours plus text and one decorative line colour. */
+/* Ink and Contour. A role-based palette built from the firm's own logo (black ink, slate cross-stroke)
+   and the pale survey-paper blue of their current site, plus one scarce accent, Roof Clay, taken from
+   the roofline in their mark. Neutrals are tinted toward the brand's cool slate. No pure black or white.
+   Values are OKLCH with the hex beside each. Proportions: about 60% paper, 30% plat and ink, 10% clay. */
 @theme {
-  --color-paper: #f3f6f8; /* Survey Paper */
-  --color-plat: #ffffff; /* Plat White */
-  --color-rule: #d7dee2; /* card borders */
-  --color-ink: #0e0f10; /* Infinity Ink */
-  --color-slate: #9ba8ae; /* Contour Slate: lines only, never text */
-  --color-text: #16191b;
-  --color-muted: #56636a;
+  --color-paper: oklch(0.971 0.004 229); /* #f3f6f8 Survey Paper, page background */
+  --color-plat: oklch(0.991 0.002 229); /* #fbfcfd Plat, card surface */
+  --color-rule: oklch(0.895 0.008 229); /* #d7dee2 borders */
+  --color-ink: oklch(0.169 0.003 229); /* #0e0f10 Infinity Ink: primary button, wordmark */
+  --color-ink-hover: oklch(0.297 0.006 229); /* #2a2d30 */
+  --color-slate: oklch(0.72 0.016 222); /* #9ba8ae Contour Slate: lines only, never text */
+  --color-text: oklch(0.212 0.006 229); /* #16191b body text, 16.6:1 on paper */
+  --color-muted: oklch(0.484 0.019 222); /* #56636a muted text, 5.8:1 on paper */
+  --color-clay: oklch(0.56 0.14 40); /* #b5502f Roof Clay accent, 4.7:1 on paper */
+  --color-clay-soft: oklch(0.74 0.11 45); /* #e08a66 clay on ink, 7.0:1 on ink */
+  --color-success: oklch(0.47 0.08 160); /* #2f6b4f */
+  --color-error: oklch(0.47 0.15 27); /* #a3312a, 6.6:1 on plat */
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
+
+  /* Type scale: seven named steps, each a clamp with rem bounds (ceiling at most 2.5x the floor). */
+  --text-label: 0.8125rem;
+  --text-body: 1rem;
+  --text-lead: clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);
+  --text-h3: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --text-h2: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+  --text-h1: clamp(2.5rem, 1.6rem + 4vw, 4.5rem);
+  --text-display: clamp(2.75rem, 1.5rem + 5.6vw, 5.5rem);
 
   --radius-card: 6px;
   --ease-survey: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -143,7 +160,7 @@
     border: 1px solid var(--color-ink);
   }
   .btn-ink:hover {
-    background: #2a2d30;
+    background: var(--color-ink-hover);
   }
   .btn-ghost {
     background: transparent;
@@ -159,7 +176,7 @@
     border: 1px solid var(--color-paper);
   }
   .btn-paper:hover {
-    background: #ffffff;
+    background: var(--color-plat);
   }
   .btn-ghost-paper {
     background: transparent;
@@ -198,7 +215,9 @@
 
   /* Roofline frame: one clipPath (objectBoundingBox) shared by every portrait and monogram */
   .roof-clip {
-    clip-path: url(#roofline-clip);
+    /* Same house silhouette as the logo's roofline. A percentage polygon renders reliably in every
+       mobile browser, where url() references to an SVG clipPath can fail on HTML elements. */
+    clip-path: polygon(0 21.5%, 50% 0, 100% 21.5%, 100% 100%, 0 100%);
   }
 
   .chip {
@@ -324,5 +343,61 @@
 @media (prefers-reduced-motion: reduce) {
   .planner-step {
     animation: none;
+  }
+}
+
+/* Short screens (phones held sideways): bring the headline up instead of leaving room for the roof art. */
+@media (max-height: 520px) {
+  .hero-title {
+    margin-top: 5cqi !important;
+  }
+  .hero-route path:first-of-type {
+    display: none;
+  }
+}
+
+/* Quiet polish, no JavaScript: sections ease in as they scroll into view. Skipped where unsupported
+   or when reduced motion is requested, and never applied to the hero. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 28%;
+    }
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0.25;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Horizontal chip rows on phones: one swipeable line instead of four wrapped ones. */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+@media (max-width: 1023px) {
+  .chip-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -16px;
+    padding-inline: 16px;
+    padding-block: 3px;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+  .chip-row::-webkit-scrollbar {
+    display: none;
+  }
+  .chip-row > * {
+    flex: none;
   }
 }

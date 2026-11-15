@@ -268,7 +268,7 @@ export function Field({
       )}
       <div className="mt-1.5">{children}</div>
       {error && (
-        <p id={`${id}-error`} className="mt-1.5 flex items-start gap-1.5 text-[0.9375rem] font-medium text-ink" role="alert">
+        <p id={`${id}-error`} className="mt-1.5 flex items-start gap-1.5 text-[0.9375rem] font-medium text-error" role="alert">
           <CircleAlert aria-hidden="true" size={18} strokeWidth={1.5} className="mt-0.5 shrink-0" />
           {error}
         </p>
@@ -279,7 +279,7 @@ export function Field({
 
 export const inputCls = (bad?: boolean) =>
   `block min-h-12 w-full rounded-[6px] border bg-plat px-4 text-[1rem] text-text placeholder:text-muted ${
-    bad ? "border-2 border-ink" : "border-rule focus:border-ink"
+    bad ? "border-2 border-error" : "border-rule focus:border-ink"
   }`;
 
 export function ReachChoice({ value, onChange }: { value: Reach; onChange: (r: Reach) => void }) {

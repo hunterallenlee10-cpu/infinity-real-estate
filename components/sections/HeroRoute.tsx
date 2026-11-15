@@ -1,5 +1,5 @@
 // The Roofline Route: the logo's roofline draws large and faint behind the headline, then a single
-// Contour Slate line runs from its peak, down the roof, and on through NV, IL, PA and MD (west to east),
+// Roof Clay line runs from its peak, down the roof, and on through NV, IL, PA and MD (west to east),
 // finishing under the headline. Pure SVG + CSS (stroke-dashoffset), plays once, no layout shift.
 // Units are container-query units (cqi) of the headline block, so the art scales with the type.
 
@@ -69,7 +69,7 @@ export function HeroRoute({ variant }: { variant: Variant }) {
           d={g.route}
           pathLength={1}
           fill="none"
-          stroke="var(--color-slate)"
+          stroke="var(--color-clay)"
           // ~1.5px at the block's typical width (non-scaling-stroke breaks pathLength dashes in Chrome)
           strokeWidth={variant.key === "wide" ? 0.28 : 0.44}
           strokeLinecap="round"
@@ -79,7 +79,7 @@ export function HeroRoute({ variant }: { variant: Variant }) {
         {PINS.map((p) => (
           <g key={p.code} className="pin" style={{ ["--delay" as string]: `${Math.round(ROOF_MS + g.frac(p.x) * ROUTE_MS * 0.85)}ms` }}>
             <circle cx={p.x} cy={g.y} r={variant.key === "wide" ? 1.15 : 1.7} fill="var(--color-paper)" stroke="var(--color-ink)" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
-            <circle cx={p.x} cy={g.y} r={variant.key === "wide" ? 0.45 : 0.65} fill="var(--color-ink)" />
+            <circle cx={p.x} cy={g.y} r={variant.key === "wide" ? 0.45 : 0.65} fill="var(--color-clay)" />
           </g>
         ))}
       </svg>

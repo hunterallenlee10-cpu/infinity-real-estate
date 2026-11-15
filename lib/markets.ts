@@ -16,6 +16,10 @@ export type Market = {
   areas: string[];
   idx: string;
   searchLabel: string;
+  /** Market page: the what-plus-where line inside the h1, the title tag and the meta description */
+  headline: string;
+  metaTitle: string;
+  metaDescription: string;
 };
 
 export const markets: Market[] = [
@@ -28,6 +32,10 @@ export const markets: Market[] = [
     areas: ["Central Pennsylvania", "Philadelphia area"],
     idx: idx.pennsylvania,
     searchLabel: "Search Pennsylvania homes",
+    headline: "Central Pennsylvania real estate agents",
+    metaTitle: "Central Pennsylvania Real Estate Agents | Infinity Real Estate",
+    metaDescription:
+      "Meet Infinity Real Estate's Pennsylvania agents, serving Central Pennsylvania and the Philadelphia area. Call or text an agent directly, or search homes.",
   },
   {
     code: "IL",
@@ -38,6 +46,10 @@ export const markets: Market[] = [
     areas: ["Chicagoland", "Surrounding areas"],
     idx: idx.illinois,
     searchLabel: "Search Illinois homes",
+    headline: "Chicagoland real estate brokers",
+    metaTitle: "Chicagoland Real Estate Brokers | Infinity Real Estate",
+    metaDescription:
+      "Meet Infinity Real Estate's Illinois brokers, serving Chicagoland and surrounding areas, with service in Greek and Polish. Call or text a broker directly.",
   },
   {
     code: "NV",
@@ -48,6 +60,10 @@ export const markets: Market[] = [
     areas: ["Las Vegas", "Henderson", "Boulder City", "Pahrump", "Lake Las Vegas", "Las Vegas Valley"],
     idx: idx.nevada,
     searchLabel: "Search Nevada homes",
+    headline: "Las Vegas and Henderson real estate agents",
+    metaTitle: "Las Vegas & Henderson Real Estate Agents | Infinity Realty",
+    metaDescription:
+      "Meet Infinity Realty's Nevada agents, serving Las Vegas, Henderson, Boulder City, Pahrump and Lake Las Vegas. Call or text an agent directly, or search homes.",
   },
   {
     code: "MD",
@@ -58,6 +74,10 @@ export const markets: Market[] = [
     areas: ["Washington County", "Frederick County"],
     idx: idx.maryland,
     searchLabel: "Search Maryland homes",
+    headline: "Frederick County MD real estate agent",
+    metaTitle: "Frederick County MD Real Estate Agent | Infinity Real Estate",
+    metaDescription:
+      "Infinity Real Estate serves Washington and Frederick counties in Maryland. Call or text Peg Steich, licensed in Maryland, or search Maryland homes.",
   },
 ];
 
@@ -65,3 +85,5 @@ export const markets: Market[] = [
 export const WEST_TO_EAST: StateCode[] = ["NV", "IL", "PA", "MD"];
 
 export const marketByCode = (code: StateCode) => markets.find((m) => m.code === code)!;
+
+export const marketBySlug = (slug: string) => markets.find((m) => m.slug === slug);

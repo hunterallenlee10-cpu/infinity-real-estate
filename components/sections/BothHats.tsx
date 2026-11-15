@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MatchButton } from "../MatchButton";
-import { business } from "@/lib/business";
 import type { Plan } from "../MovePlanner/types";
 
 const ROWS: { plan: Plan; title: string; text: string }[] = [
@@ -18,17 +18,24 @@ export function BothHats() {
     <section aria-labelledby="both-hats-title" className="ink-band contour-ink section text-paper">
       <div className="wrap grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
-          <p className="label text-paper/80">{business.lines.handsOn}</p>
           <h2
             id="both-hats-title"
-            className="mt-5 text-[2.25rem] leading-[1.08] text-paper md:text-[3.25rem]"
+            className="text-[length:var(--text-h2)] leading-[1.08] text-paper"
             style={{ fontVariationSettings: '"opsz" 144' }}
           >
             We can quickly wear both hats, a listing agent and a buyer&rsquo;s agent.
           </h2>
           <p className="mt-6 max-w-[44ch] text-[1.0625rem] text-paper/85">
             One local agent who handles it start to finish, with an extended network of brokers and agents in each state
-            behind them.
+            behind them. A hands-on approach, in their words.
+          </p>
+          <p className="mt-6 flex flex-wrap gap-x-6 gap-y-1">
+            <Link href="/buy" className="inline-flex min-h-11 items-center gap-1.5 font-medium text-paper underline decoration-clay-soft underline-offset-[6px]">
+              How we help buyers
+            </Link>
+            <Link href="/sell" className="inline-flex min-h-11 items-center gap-1.5 font-medium text-paper underline decoration-clay-soft underline-offset-[6px]">
+              How we help sellers
+            </Link>
           </p>
         </div>
 

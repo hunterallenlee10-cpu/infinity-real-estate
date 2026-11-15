@@ -2,7 +2,7 @@ import { Phone } from "lucide-react";
 import { MatchButton } from "../MatchButton";
 import { RooflineFrame } from "../RooflineFrame";
 import { HeroRoute } from "./HeroRoute";
-import { agentBySlug, AGENT_COUNT } from "@/lib/agents";
+import { agentBySlug } from "@/lib/agents";
 import { business } from "@/lib/business";
 
 // Five prints on a contour field. One DOM: a peeking horizontal row on mobile, an overlapping cluster on desktop.
@@ -46,19 +46,14 @@ const CLUSTER = [
   },
 ] as const;
 
-// DRAFT: recount the agents once the roster is confirmed
-const FACTS = ["Since 1994", `4 states, ${AGENT_COUNT} local agents`, "Listing agent or buyer\u2019s agent"];
-
 export function Hero() {
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
       <div className="wrap grid grid-cols-1 items-center gap-10 pt-3 pb-16 sm:pt-6 lg:grid-cols-12 lg:gap-8 lg:pt-16 lg:pb-28">
         {/* Type */}
         <div className="hero-head relative z-10 min-w-0 lg:col-span-6">
+          {/* One h1: their own line large, then the what-and-where line in plain sentence case. */}
           <h1 id="hero-title" className="font-semibold">
-            <span className="label block max-w-[46ch] font-sans text-[0.75rem] font-medium tracking-[0.16em] text-muted md:text-[0.8125rem]">
-              Real estate agents in Pennsylvania, Illinois, Nevada and Maryland
-            </span>{" "}
             <span className="hero-title text-ink">
               <HeroRoute variant={{ key: "wide", lines: 2, fs: 9.4 }} />
               <HeroRoute variant={{ key: "narrow", lines: 3, fs: 12.6 }} />
@@ -66,12 +61,15 @@ export function Hero() {
                 Making realty <span className="hero-dreams">dreams</span>
               </span>{" "}
               <span className="relative block">come true.</span>
+            </span>{" "}
+            <span className="mt-3 block max-w-[34ch] font-sans text-[length:var(--text-lead)] leading-snug font-medium tracking-normal text-ink sm:mt-2">
+              Real estate agents in Pennsylvania, Illinois, Nevada and Maryland.
             </span>
           </h1>
 
-          <p className="mt-3 max-w-[46ch] text-[1rem] leading-relaxed text-text sm:mt-2 sm:text-[1.0625rem] md:text-[1.1875rem]">
-            A boutique real estate firm in Pennsylvania, Illinois, Nevada and Maryland since 1994. Tell us where you are
-            moving and we will put you with one local agent who handles it start to finish.
+          <p className="mt-2 max-w-[46ch] text-[1rem] leading-relaxed text-muted sm:text-[1.0625rem]">
+            A boutique firm since 1994. Tell us where you are moving and we will put you with one local agent who
+            handles it start to finish.
           </p>
 
           <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
@@ -82,13 +80,10 @@ export function Hero() {
             </a>
           </div>
 
-          <ul className="label mt-9 hidden max-w-[34rem] grid-cols-3 text-[0.75rem] leading-snug tracking-[0.1em] text-ink sm:grid">
-            {FACTS.map((f, i) => (
-              <li key={f} className={i === 0 ? "pr-4" : "border-l border-rule px-4"}>
-                {f}
-              </li>
-            ))}
-          </ul>
+          {/* Proof he is real, in the firm's own licence wording. No invented numbers. */}
+          <p className="mt-6 hidden text-[0.875rem] text-muted sm:block">
+            {business.displayName} &middot; {business.nvLicence} &middot; Equal Housing Opportunity
+          </p>
         </div>
 
         {/* Portraits */}
@@ -114,14 +109,9 @@ export function Hero() {
               );
             })}
           </ul>
-          <ul className="label mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[0.75rem] text-ink sm:hidden">
-            {FACTS.map((f) => (
-              <li key={f} className="flex items-center gap-2">
-                <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 border border-ink" />
-                {f}
-              </li>
-            ))}
-          </ul>
+<p className="mt-5 text-[0.875rem] text-muted sm:hidden">
+            {business.displayName} &middot; {business.nvLicence}
+          </p>
         </div>
       </div>
     </section>
