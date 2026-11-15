@@ -3,8 +3,8 @@ import type { NextConfig } from "next";
 const isLive = process.env.NEXT_PUBLIC_SITE_MODE === "live";
 
 const nextConfig: NextConfig = {
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Every page here is static. Cache Components is left off so unknown agent or market
+  // addresses return a hard 404 (dynamicParams = false) instead of a streamed shell.
   images: {
     formats: ["image/avif", "image/webp"],
   },

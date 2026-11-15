@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Jost } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
-import { SvgDefs } from "@/components/SvgDefs";
 import { PlannerProvider } from "@/components/MovePlanner/PlannerProvider";
 import { MobileBar } from "@/components/MobileBar";
 import { BackToTop } from "@/components/BackToTop";
@@ -43,7 +42,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <SvgDefs />
         <PlannerProvider>
           {children}
           <MobileBar />

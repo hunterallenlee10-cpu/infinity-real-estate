@@ -15,6 +15,9 @@ import { marketByCode } from "@/lib/markets";
 import { agentSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 
+// Only the listed pages exist. Anything else is a real 404.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return agentsWithPages.map((a) => ({ slug: a.slug }));
 }
@@ -147,6 +150,13 @@ export default async function AgentPage({ params }: PageProps<"/agents/[slug]">)
                     <div>
                       <dt className="text-muted">Languages</dt>
                       <dd className="text-ink">English and {langs.map((l) => l[0].toUpperCase() + l.slice(1)).join(", ")}</dd>
+                    </div>
+                  )}
+                  {a.state === "NV" && (
+                    <div>
+                      {/* DRAFT: add each agent's own licence number, and the PA, IL and MD brokerage disclosures. */}
+                      <dt className="text-muted">Brokerage licence</dt>
+                      <dd className="text-ink">Infinity Realty (NV) {business.nvLicence}</dd>
                     </div>
                   )}
                   <div>

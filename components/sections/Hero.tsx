@@ -12,8 +12,8 @@ const CLUSTER = [
     caption: "Ellie Plante · NV",
     // never above native size: 01 is 1792px wide
     desk: "lg:absolute lg:left-[24%] lg:top-[9%] lg:z-20 lg:w-[52%]",
-    mob: "w-[188px] md:w-[168px]",
-    sizes: "(min-width: 1024px) 340px, 188px",
+    mob: "w-[160px] md:w-[168px]",
+    sizes: "(min-width: 1024px) 340px, 168px",
     preload: true,
   },
   {

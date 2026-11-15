@@ -40,6 +40,8 @@ function build() {
 
 const marketName = (code: string) => markets.find((m) => m.code === code)!.name;
 
+export const dynamic = "force-static";
+
 export function GET() {
   if (!IS_LIVE) return new Response("Not found", { status: 404, headers: { "Content-Type": "text/plain; charset=utf-8" } });
   return new Response(build(), { headers: { "Content-Type": "text/markdown; charset=utf-8" } });

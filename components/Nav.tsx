@@ -65,8 +65,8 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
           <InfinityMark animate={animateMark} title={null} className="h-[46px] w-auto md:h-[52px]" />
         </Link>
 
-        <nav aria-label="Main" className="hidden xl:block">
-          <ul className="flex items-center gap-6">
+        <nav aria-label="Main" className="hidden lg:block">
+          <ul className="flex items-center gap-4 xl:gap-6">
             {nav.map((n) => (
               <li key={n.href}>
                 <Link
@@ -86,7 +86,7 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
         <div className="hidden items-center gap-5 md:flex">
           <a
             href={business.phone.tel}
-            className="flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-ink"
+            className="flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-ink lg:hidden xl:flex"
             aria-label={`Call Infinity Real Estate at ${business.phone.display}`}
           >
             <Phone aria-hidden="true" size={17} strokeWidth={1.5} />
@@ -98,7 +98,7 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
         <button
           ref={burgerRef}
           type="button"
-          className="-mr-2 flex h-12 w-12 items-center justify-center text-ink xl:hidden"
+          className="-mr-2 flex h-12 w-12 items-center justify-center text-ink lg:hidden"
           aria-label="Open menu"
           aria-expanded={menu}
           aria-controls="mobile-menu"

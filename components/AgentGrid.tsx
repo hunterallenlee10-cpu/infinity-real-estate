@@ -73,7 +73,7 @@ export function AgentGrid() {
         <ul className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6">
           {list.map((a) => (
             <li key={a.slug}>
-              <AgentCard agent={a} headingLevel={2} sizes="(min-width: 1024px) 280px, (min-width: 768px) 30vw, 46vw" />
+              <AgentCard agent={a} sizes="(min-width: 1024px) 280px, (min-width: 768px) 30vw, 46vw" />
             </li>
           ))}
           <li className="sheet col-span-2 flex flex-col justify-end p-5 md:col-span-1 md:p-6">

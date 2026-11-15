@@ -28,7 +28,7 @@ export function MarketTiles({ headingLevel = 3 }: { headingLevel?: 2 | 3 }) {
       {BENTO.map((m) => {
         const team = [...agentsInState(m.code)].sort((a, b) => Number(!!b.photo) - Number(!!a.photo));
         return (
-          <li key={m.code} id={m.slug} className={`sheet relative flex scroll-mt-28 flex-col p-5 md:p-8 ${LAYOUT[m.code].tile}`}>
+          <li key={m.code} id={m.slug} className={`sheet relative flex min-w-0 scroll-mt-28 flex-col p-5 md:p-8 ${LAYOUT[m.code].tile}`}>
             {/* Outline sits in the header row, so it can never run under the text or buttons. */}
             <div className="flex items-start justify-between gap-4">
               <H className="min-w-0 text-[1.875rem] lg:text-[2.5rem]">
@@ -53,7 +53,7 @@ export function MarketTiles({ headingLevel = 3 }: { headingLevel?: 2 | 3 }) {
                 ))}
               </ul>
               <div className="mt-5 flex flex-wrap gap-2.5">
-                <Link href={`/markets/${m.slug}`} className="btn btn-ink !min-h-11 !px-4 text-[0.9375rem]">
+                <Link href={`/markets/${m.slug}`} className="btn btn-ink !min-h-11 max-w-full !px-4 text-[0.9375rem] !whitespace-normal">
                   Meet the {m.name} team
                   <ArrowRight aria-hidden="true" size={16} strokeWidth={1.5} />
                 </Link>
@@ -61,7 +61,7 @@ export function MarketTiles({ headingLevel = 3 }: { headingLevel?: 2 | 3 }) {
                   href={m.idx}
                   target="_blank"
                   rel="noopener"
-                  className="btn btn-ghost !min-h-11 bg-plat !px-4 text-[0.9375rem]"
+                  className="btn btn-ghost !min-h-11 max-w-full bg-plat !px-4 text-[0.9375rem] !whitespace-normal"
                   aria-label={
                     m.code === "MD"
                       ? "Search Maryland homes on the Pennsylvania and Maryland MLS search, opens in a new tab"

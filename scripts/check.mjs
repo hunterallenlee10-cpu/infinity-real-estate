@@ -119,6 +119,32 @@ for (const [page, raw] of Object.entries(html)) {
   }
 }
 
+// Live-mode guard: a launch build must not ship while draft items remain in the source.
+// ALLOW_DRAFT=1 skips this, only so launch-mode Lighthouse can be proven locally before the owner has answered.
+if (LIVE && !process.env.ALLOW_DRAFT) {
+  const srcDirs = ["app", "components", "lib"];
+  const srcWalk = async (dir) => {
+    const out = [];
+    for (const e of await readdir(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) out.push(...(await srcWalk(p)));
+      else if (/\.(tsx?|css)$/.test(e.name)) out.push(p);
+    }
+    return out;
+  };
+  let drafts = 0;
+  const where = new Set();
+  for (const d of srcDirs)
+    for (const f of await srcWalk(d)) {
+      const n = ((await readFile(f, "utf8")).match(/DRAFT|TODO: real headshot|TODO: swap|TODO: a better headshot/g) || []).length;
+      if (n) {
+        drafts += n;
+        where.add(f);
+      }
+    }
+  if (drafts) fail("live build", `${drafts} draft items remain in ${where.size} files (${[...where].slice(0, 4).join(", ")}...). Confirm them with the owner first.`);
+}
+
 // every page in the nav and sitemap list exists
 for (const must of ["/", "/agents", "/markets", "/buy", "/sell", "/search", "/about", "/contact"]) {
   if (!routes.has(must)) fail(must, "page was not built");

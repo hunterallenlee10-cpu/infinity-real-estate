@@ -16,6 +16,9 @@ import { marketBySlug, markets } from "@/lib/markets";
 import { marketSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 
+// Only the listed pages exist. Anything else is a real 404.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return markets.map((m) => ({ slug: m.slug }));
 }
