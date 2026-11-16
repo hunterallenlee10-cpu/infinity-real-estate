@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Check, MessageSquare, Phone } from "lucide-react";
+import { ArrowLeft, Check, Copy, Mail, MessageSquare, Phone } from "lucide-react";
 import { agentBySlug, agentsInState, type Agent } from "@/lib/agents";
 import { business } from "@/lib/business";
 import { phoneDisplayFor, smsFor, telFor } from "@/lib/contact";
@@ -48,6 +48,9 @@ export function PlannerFlow({
   });
   const [errors, setErrors] = useState<{ name?: string; phone?: string; email?: string }>({});
   const [done, setDone] = useState(false);
+  const [sent, setSent] = useState<null | "texted" | "emailed" | "called" | "copied" | "copy-failed">(null);
+  // A text link does nothing on a desktop, so phones get "Text my request" and desktops get "Copy my request".
+  const [touch, setTouch] = useState(true);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   const set = (patch: Partial<PlannerAnswers>) => setA((x) => ({ ...x, ...patch }));
@@ -82,6 +85,7 @@ export function PlannerFlow({
       document.getElementById(`${uid}-${first}`)?.focus();
       return;
     }
+    setTouch(window.matchMedia("(pointer: coarse)").matches);
     setDone(true);
     requestAnimationFrame(() => bodyRef.current?.querySelector<HTMLElement>("h2,h3")?.focus());
   };
@@ -90,19 +94,51 @@ export function PlannerFlow({
   const contactAgent = routedToMainLine ? null : agent;
   const sms = smsBody(a, contactAgent);
 
+  // The honest last step. Nothing reaches the agent until the visitor taps Text, Email or Call,
+  // so the button names the real action and the thank-you only appears after that tap.
   if (done) {
+    const who = contactAgent ? contactAgent.first : "Infinity";
+    const mail = contactAgent?.email ?? business.email;
+    const mailHref = `mailto:${mail}?subject=${encodeURIComponent(`Move request from ${a.name.trim()}`)}&body=${encodeURIComponent(sms)}`;
+    const copy = async () => {
+      try {
+        await navigator.clipboard.writeText(sms);
+        setSent("copied");
+      } catch {
+        setSent("copy-failed");
+      }
+    };
     return (
       <div ref={bodyRef} className="planner-step">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-paper" aria-hidden="true">
-          <Check size={28} strokeWidth={2} />
-        </span>
-        {/* DRAFT: confirm reply method and timing with the owner */}
-        <h2 id={headingId} tabIndex={-1} className="mt-5 text-[2rem] leading-tight outline-none">
-          Thanks, {firstName}. {contactAgent ? `${contactAgent.first} will be in touch.` : "We will be in touch."}
-        </h2>
-        <p className="mt-2 text-muted">
-          For the fastest reply, send this as a text. It is already written for you.
-        </p>
+        {sent && sent !== "copy-failed" ? (
+          <>
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-success text-paper" aria-hidden="true">
+              <Check size={26} strokeWidth={2} />
+            </span>
+            {/* DRAFT: confirm reply method and timing with the owner */}
+            <h2 id={headingId} tabIndex={-1} className="mt-4 text-[1.75rem] leading-tight outline-none md:text-[2rem]" role="status">
+              {sent === "copied"
+                ? `Copied, ${firstName}. Paste it into a text or email to ${who}.`
+                : sent === "called"
+                  ? `Thanks, ${firstName}. Tell ${who} what you told us.`
+                  : `Thanks, ${firstName}. Press send and ${who} has it.`}
+            </h2>
+            <p className="mt-2 text-muted">
+              {sent === "texted" || sent === "emailed"
+                ? "Your request is written and waiting in your own app. Nothing is sent until you press send there."
+                : `${who}\u2019s number is ${phoneDisplayFor(contactAgent)}.`}
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 id={headingId} tabIndex={-1} className="text-[1.75rem] leading-tight outline-none md:text-[2rem]">
+              One tap left, {firstName}.
+            </h2>
+            <p className="mt-2 text-muted">
+              Your request is written. {touch ? `Text it to ${who} to send it.` : `Copy it or email it to ${who} to send it.`} Nothing has been sent yet.
+            </p>
+          </>
+        )}
         <dl className="sheet mt-6 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 p-5 text-[0.9375rem]">
           <dt className="text-muted">Plan</dt>
           <dd className="text-ink">{cap(planPhrase(a.plan, a.need))}</dd>
@@ -114,28 +150,57 @@ export function PlannerFlow({
           <dd className="text-ink">{contactAgent ? contactAgent.name : "Infinity main line"}</dd>
           <dt className="text-muted">Reach me by</dt>
           <dd className="text-ink capitalize">{a.reach}</dd>
+          {a.notes.trim() && (
+            <>
+              <dt className="text-muted">Notes</dt>
+              <dd className="text-ink">{a.notes.trim()}</dd>
+            </>
+          )}
         </dl>
-        <p className="mt-5 rounded-[6px] border border-dashed border-slate bg-plat p-4 text-[0.9375rem] text-text">{sms}</p>
-        <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
-          <a href={smsFor(contactAgent, sms)} className="btn btn-ink min-h-14 text-[1.0625rem]">
-            <MessageSquare aria-hidden="true" size={19} strokeWidth={1.5} />
-            Text {contactAgent ? contactAgent.first : "Infinity"}
-          </a>
-          <a href={telFor(contactAgent)} className="btn btn-ghost min-h-14 text-[1.0625rem]">
-            <Phone aria-hidden="true" size={19} strokeWidth={1.5} />
-            Call {contactAgent ? contactAgent.first : "Infinity"}
-          </a>
+        <p className="mt-4 rounded-[6px] border border-dashed border-slate bg-plat p-4 text-[0.9375rem] text-text">{sms}</p>
+        <div className="mt-5 grid gap-2.5">
+          {touch ? (
+            <a href={smsFor(contactAgent, sms)} onClick={() => setSent("texted")} className="btn btn-ink min-h-14 !whitespace-normal text-[1.0625rem]">
+              <MessageSquare aria-hidden="true" size={19} strokeWidth={1.5} className="shrink-0" />
+              Text my request to {who}
+            </a>
+          ) : (
+            <button type="button" onClick={copy} className="btn btn-ink min-h-14 text-[1.0625rem]">
+              <Copy aria-hidden="true" size={19} strokeWidth={1.5} />
+              Copy my request
+            </button>
+          )}
+          <div className="grid grid-cols-2 gap-2.5">
+            <a href={mailHref} onClick={() => setSent("emailed")} className="btn btn-ghost min-h-12">
+              <Mail aria-hidden="true" size={18} strokeWidth={1.5} />
+              Email {who}
+            </a>
+            <a href={telFor(contactAgent)} onClick={() => setSent("called")} className="btn btn-ghost min-h-12">
+              <Phone aria-hidden="true" size={18} strokeWidth={1.5} />
+              Call {who}
+            </a>
+          </div>
         </div>
+        {sent === "copy-failed" && (
+          <p className="mt-3 text-[0.9375rem] font-medium text-error" role="alert">
+            Copy did not work in this browser. Select the message above and copy it, or use Email.
+          </p>
+        )}
         <p className="mt-3 text-center text-[0.875rem] text-muted">
           {contactAgent && !contactAgent.cell ? "Calls and texts go to the main line, " : ""}
           {phoneDisplayFor(contactAgent)}
         </p>
         {routedToMainLine && isCoast(a.otherPlace) && <RobinCard />}
-        {onClose && (
-          <button type="button" onClick={onClose} className="mt-4 inline-flex min-h-11 w-full items-center justify-center font-medium text-ink underline underline-offset-4">
-            Close
+        <div className="mt-3 flex flex-wrap justify-center gap-x-6">
+          <button type="button" onClick={() => { setDone(false); setSent(null); }} className="inline-flex min-h-11 items-center font-medium text-ink underline underline-offset-4">
+            Edit my answers
           </button>
-        )}
+          {onClose && (
+            <button type="button" onClick={onClose} className="inline-flex min-h-11 items-center font-medium text-ink underline underline-offset-4">
+              Close
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -248,7 +313,9 @@ export function PlannerFlow({
 
       <div
         className={`mt-8 flex items-center justify-between gap-3 border-t border-rule pt-5 ${
-          stickyNav ? "sticky -bottom-5 z-10 -mx-5 bg-paper px-5 pb-5 sm:-bottom-7 sm:-mx-7 sm:px-7 sm:pb-7" : ""
+          stickyNav
+            ? "sticky -bottom-5 z-10 -mx-5 bg-paper px-5 pb-5 sm:-bottom-7 sm:-mx-7 sm:px-7 sm:pb-7 [@media(max-height:560px)]:static"
+            : ""
         }`}
       >
         {step > 0 ? (
@@ -263,12 +330,12 @@ export function PlannerFlow({
           </a>
         )}
         {step < 4 ? (
-          <button type="button" onClick={() => canNext && go(step + 1)} disabled={!canNext} className="btn btn-ink !min-h-12 disabled:cursor-not-allowed disabled:opacity-40">
+          <button key="next" type="button" onClick={() => canNext && go(step + 1)} disabled={!canNext} className="btn btn-ink !min-h-12 disabled:cursor-not-allowed disabled:opacity-40">
             Next
           </button>
         ) : (
-          <button type="submit" form={`${uid}-form`} className="btn btn-ink !min-h-12">
-            {routedToMainLine || !agent ? "Send my request" : `Send to ${agent.first}`}
+          <button key="review" type="submit" form={`${uid}-form`} className="btn btn-ink !min-h-12">
+            Review my request
           </button>
         )}
       </div>

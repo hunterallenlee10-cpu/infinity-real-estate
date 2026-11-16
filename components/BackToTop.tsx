@@ -22,7 +22,7 @@ export function BackToTop() {
         window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
         document.querySelector<HTMLElement>("#main")?.focus({ preventScroll: true });
       }}
-      className="fixed right-4 bottom-[76px] z-30 flex h-12 w-12 items-center justify-center rounded-full border border-rule bg-white text-ink shadow-sm transition-colors hover:bg-paper md:right-6 md:bottom-6"
+      className="fixed right-6 bottom-6 z-30 hidden h-12 w-12 md:flex items-center justify-center rounded-full border border-rule bg-plat text-ink shadow-sm transition-colors hover:bg-paper"
     >
       <ArrowUp aria-hidden="true" size={20} strokeWidth={1.5} />
     </button>

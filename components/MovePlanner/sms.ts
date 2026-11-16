@@ -49,8 +49,12 @@ export function smsBody(a: PlannerAnswers, agent: Agent | null) {
   const first = a.name.trim();
   let line = `I'm ${planPhrase(a.plan, a.need)}${place ? ` in ${place}` : ""}`;
   if (when) line += a.when === "looking" ? `, ${when}` : ` ${when}`;
-  const reach = a.reach === "email" && a.email ? ` Email is best: ${a.email}.` : a.reach === "call" ? " A call is best." : "";
-  return `${hi} I found Infinity online. ${line}. My name is ${first}, ${a.phone.trim()}.${reach}`;
+  const email = a.email.trim();
+  const reach = a.reach === "email" && email ? ` Email is best: ${email}.` : a.reach === "call" ? " A call is best." : "";
+  // Everything the visitor typed travels with the request: their email (when given) and their notes.
+  const alsoEmail = email && a.reach !== "email" ? ` My email is ${email}.` : "";
+  const notes = a.notes.trim().replace(/\s+/g, " ").slice(0, 300);
+  return `${hi} I found Infinity online. ${line}. My name is ${first}, ${a.phone.trim()}.${reach}${alsoEmail}${notes ? ` Notes: ${notes}` : ""}`;
 }
 
 /** US phone check: 10 digits, or 11 starting with 1. */

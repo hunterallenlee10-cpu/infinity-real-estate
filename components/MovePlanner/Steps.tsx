@@ -62,8 +62,7 @@ export function RobinCard() {
       <div>
         <p className="font-medium text-ink">Heading to Myrtle Beach?</p>
         <p className="text-[0.9375rem] text-muted">
-          Robin Keefover started with Infinity in Pennsylvania and now specializes in oceanfront condos and beach homes in
-          Myrtle Beach, SC.
+          Robin Keefover is now a Myrtle Beach, SC, REALTOR specializing in oceanfront condos and beach homes. She still welcomes referrals from her Pennsylvania clients and friends.
         </p>
         <a href={referral.tel} className="mt-1 inline-flex min-h-11 items-center gap-1.5 font-medium text-ink underline underline-offset-4">
           <Phone aria-hidden="true" size={15} strokeWidth={1.5} /> Call Robin {referral.phoneDisplay}
@@ -268,7 +267,7 @@ export function Field({
       )}
       <div className="mt-1.5">{children}</div>
       {error && (
-        <p id={`${id}-error`} className="mt-1.5 flex items-start gap-1.5 text-[0.9375rem] font-medium text-ink" role="alert">
+        <p id={`${id}-error`} className="mt-1.5 flex items-start gap-1.5 text-[0.9375rem] font-medium text-error" role="alert">
           <CircleAlert aria-hidden="true" size={18} strokeWidth={1.5} className="mt-0.5 shrink-0" />
           {error}
         </p>
@@ -279,7 +278,7 @@ export function Field({
 
 export const inputCls = (bad?: boolean) =>
   `block min-h-12 w-full rounded-[6px] border bg-plat px-4 text-[1rem] text-text placeholder:text-muted ${
-    bad ? "border-2 border-ink" : "border-rule focus:border-ink"
+    bad ? "border-2 border-error" : "border-rule focus:border-ink"
   }`;
 
 export function ReachChoice({ value, onChange }: { value: Reach; onChange: (r: Reach) => void }) {

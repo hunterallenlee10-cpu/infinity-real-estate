@@ -99,7 +99,7 @@ export const agents: Agent[] = [
     needs: ["buying", "selling"],
     languages: ["english"],
     areas: [],
-    highlights: ["21+ years licensed"],
+    highlights: ["21+ years of experience"],
     quote: null,
     bio: [],
     note: "Johnathan has not published a bio yet. Call or text him directly.", // DRAFT: ask Johnathan for a short bio
@@ -118,7 +118,7 @@ export const agents: Agent[] = [
     needs: ["buying", "selling"],
     languages: ["english"],
     areas: [],
-    highlights: ["19+ years licensed"],
+    highlights: ["19+ years of experience"],
     quote: null,
     bio: [],
     note: "Brittany has not published a bio yet. Call or text her directly.", // DRAFT: ask Brittany for a short bio
@@ -283,8 +283,9 @@ export const agents: Agent[] = [
     highlights: ["Luxury", "Relocation", "Investors", "Tenacious negotiator"],
     quote: "Known in the industry as a “tenacious negotiator.”",
     // DRAFT: three sentences claiming "top 1%" and "top performing" are left off. The site makes no ranking claims.
+    // DRAFT: the sentence naming "investors, seniors, and families" is left off (fair housing: no age or family wording). Confirm.
     bio: [
-      "Ellen (Ellie) Plante has built a strong client following in Southern Nevada’s real estate industry. You’ll see her all over the valley, and she especially enjoys serving the areas of Lake Las Vegas, Henderson, and Boulder City. With her reputation for being one of the hardest-working, committed professionals, Ellie believes that there is nothing she cannot do when it comes to serving her buyers’ and sellers’ highest aspirations, and her clients feel the same. As soon as a home is put on the market, or she understands what her buyers are looking for, Ellie is on the ground running to work out the best marketing strategies and locate the perfect home. A natural disposition for connecting with people from all walks of life, Ellie loves to work with investors, seniors, and families who are relocating from in or out of state.",
+      "Ellen (Ellie) Plante has built a strong client following in Southern Nevada’s real estate industry. You’ll see her all over the valley, and she especially enjoys serving the areas of Lake Las Vegas, Henderson, and Boulder City. With her reputation for being one of the hardest-working, committed professionals, Ellie believes that there is nothing she cannot do when it comes to serving her buyers’ and sellers’ highest aspirations, and her clients feel the same. As soon as a home is put on the market, or she understands what her buyers are looking for, Ellie is on the ground running to work out the best marketing strategies and locate the perfect home.",
       "Ellie began her real estate career in 2002, and with her strong business background, she dove right into the ownership of a franchise in Utah representing a national brand. After five years, she moved on to become a broker for an established global luxury brand, opening one of its Utah branches. Known in the industry as a “tenacious negotiator,” Ellie believes that the work of real estate is not for the timid or the fainthearted. No two houses are identical, so if her buyers see a home they’re interested in, she tells them that hesitation and procrastination are not an option.",
       "Giving 110% in everything she does, Ellie excels at most everything outside of real estate as well. She went from a 36 handicap in her golf game to a 16 in one year, later reaching a 9. She is a 4.0 tennis player, and just recently began playing pickleball, winning the silver in the Huntsman Senior Tournaments averaging 4.5 as a player. She and her husband, Bill, a Firefighter and Paramedic for the city of Las Vegas since 2001, both enjoy heading out for a relaxing boating excursion on Lake Mead.",
       "Real Estate is a “People Business” so unless you really enjoy talking in person and on the phone with dozens of people every day, this is not the career for you. We’re not always lucky enough in life to find the perfect career that complements and enhances our personality and character, but there is truly no other career that I could have embraced that would have utilized all of my skills and talents that I have been blessed with. With Real Estate, I’m not working hard for some faceless corporation, I’m working for real people whom I can talk to, laugh with and share the joy of happiness when they finally move into their Dream Home.",
@@ -364,7 +365,7 @@ export const agents: Agent[] = [
     needs: ["buying", "selling"],
     languages: ["english"],
     areas: ["Las Vegas", "Las Vegas Valley"],
-    highlights: ["35 years calling Las Vegas home"],
+    highlights: ["Nearly 35 years in Las Vegas"],
     quote: "My extensive knowledge of the Las Vegas Valley and its neighborhoods...",
     bio: [
       "With nearly 35 years of calling Las Vegas home, I have a deep-rooted connection to this vibrant city and its surrounding areas. I've proudly served as a licensed realtor for over 3 years, and during this time, I've had the privilege of helping countless clients find their dream homes. My extensive knowledge of the Las Vegas Valley and its neighborhoods, coupled with a genuine passion for assisting others, makes me your ideal partner in the real estate journey.",
@@ -404,3 +405,15 @@ export const AGENT_COUNT = agents.length;
 
 export const agentBySlug = (slug: string) => agents.find((a) => a.slug === slug);
 export const agentsInState = (state: StateCode) => agents.filter((a) => a.state === state);
+
+/** An agent gets a bio page only when they have published a bio. No page is built on guesses. */
+export const hasPage = (a: Agent) => a.bio.length > 0 || Boolean(a.bioList);
+export const agentsWithPages = agents.filter(hasPage);
+/** Name without nickname punctuation, for titles and headings: "Peg Steich", "Ellie Plante" */
+export const shortName = (a: Agent) => (/[(\u201c]/.test(a.name) ? `${a.first} ${a.name.split(" ").slice(-1)[0]}` : a.name);
+export const agentMeta = (a: Agent) => [a.title, a.experience !== "Not listed" ? a.experience : null].filter(Boolean).join(" \u00b7 ");
+
+/** Wrap in quotes unless the line already quotes someone (Ellie's "tenacious negotiator"). */
+export function quoteText(q: string) {
+  return q.includes("\u201c") ? q : `\u201c${q}\u201d`;
+}

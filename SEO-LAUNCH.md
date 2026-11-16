@@ -12,13 +12,14 @@ The site ships in **demo mode** (noindex, no sitemap, concept footer line). Laun
 - [ ] View source on `/` and `/contact`: `<meta name="robots" content="index, follow">`.
 - [ ] Canonicals point at the real domain (`<link rel="canonical" href="https://<domain>/">`).
 - [ ] `https://<domain>/robots.txt` lists `Sitemap: https://<domain>/sitemap.xml`.
-- [ ] `https://<domain>/sitemap.xml` lists `/` and `/contact` with real last-modified dates (edit `app/sitemap.ts` when content changes).
+- [ ] `https://<domain>/sitemap.xml` lists every page with real last-modified dates (edit `app/sitemap.ts` when content changes).
+- [ ] Response headers no longer carry `X-Robots-Tag: noindex`.
 - [ ] The footer no longer shows "Concept preview by Lee Enterprises Unlimited."
 - [ ] Paste both URLs into the Schema.org validator and Google's Rich Results Test. Fix any warnings.
 - [ ] Share the URL in a private chat to check the link preview (`/og-image.png`).
 
 ## 3. Listings
-- [ ] Embed the iHomefinder Kestrel widget on the new domain (search the `TODO at launch` comment in `lib/business.ts` and `components/sections/SearchBand.tsx`). Until then the Search buttons open the existing IDX pages on infinitypa.com.
+- [ ] Embed the iHomefinder Kestrel widget on the new domain (search the `TODO at launch` comment in `lib/business.ts` and `components/SearchLinks.tsx`). Until then the Search buttons open the existing IDX pages on infinitypa.com.
 
 ## 4. Search engines and profiles
 - [ ] Google Search Console: verify the domain, submit `sitemap.xml`, request indexing for `/` and `/contact`.
@@ -26,20 +27,29 @@ The site ships in **demo mode** (noindex, no sitemap, concept footer line). Laun
 - [ ] Link the site from each Google Business Profile (one per office or state, if they exist).
 
 ## 5. Redirects from the old WordPress site (301)
-Add to `next.config.ts` (`redirects()`) or Vercel, once the domain moves:
+These are already built into `next.config.ts`, page by page, and take effect when the domain points here:
 
 | Old URL | New URL |
 |---|---|
-| `/maryland/` | `/#maryland` |
-| `/pennsylvania/` | `/#pennsylvania` |
-| `/illinois/` | `/#illinois` |
-| `/nevada/` | `/#nevada` |
-| `/about-us/` | `/#about` |
+| `/nevada/` | `/markets/nevada` |
+| `/illinois/` | `/markets/illinois` |
+| `/pennsylvania/` | `/markets/pennsylvania` |
+| `/maryland/` | `/markets/maryland` |
+| `/about-us/` | `/about` |
 | `/contact-us/` | `/contact` |
-| `/service-locations/` | `/#markets` |
-| `/real-estate-search/` | `/#search` |
+| `/service-locations/` | `/markets` |
+| `/real-estate-search/` and the three state search pages | `/search` |
 
-Keep the IDX search pages (`/nevada-real-estate-search/` and friends) working until the Kestrel widget is embedded.
+- [ ] The old site has a Privacy Policy page. Add one here before launch and redirect `/privacy-policy/` to it.
+- [ ] Once the Kestrel widget is embedded, point each state search redirect at that state's search.
+
+## 5b. Listings and profiles
+- [ ] The Google Business Profile should link to the home page. If a profile exists per state, link each to its market page (`/markets/nevada` and so on).
+- [ ] Update the name, phone and web address on Google Business Profile, Apple Business, Bing Places, Yelp, the BBB, Zillow and Realtor.com agent profiles, and each state association directory.
+- [ ] After the switch: request indexing in Search Console, confirm the host's bot protection is not blocking search or AI search crawlers, and redirect or retire the preview address.
+- [ ] The live build fails `npm run check` while any draft or placeholder content remains. That is deliberate.
+
+One honest line for the owner: the site is technically complete. Ranking from here depends mostly on the Google profile, reviews, links and listings.
 
 ## 6. Replace every DRAFT and Sample item
 Search the code for `DRAFT`, `TODO` and `Sample`:
@@ -49,9 +59,10 @@ Search the code for `DRAFT`, `TODO` and `Sample`:
 - [ ] Dina's years (bio says eight, card says 11) and Sylwia's (licensed 2014 vs 9 years).
 - [ ] Bios for Johnathan and Brittany.
 - [ ] Ellie's bio: three ranking sentences were left off; confirm.
-- [ ] Real Google or Zillow reviews (`components/sections/Reviews.tsx`). Do not add review or rating schema unless the reviews are real and first-party.
-- [ ] The year each state opened (`components/sections/Since1994.tsx`).
+- [ ] Real Google or Zillow reviews, shown as plain text with month, year and a link to the source (`components/sections/Proof.tsx`). Never add rating or review markup about the firm to its own site.
+- [ ] The year each state opened (`app/about/page.tsx`).
+- [ ] Fees: the Buy and Sell pages say fees are not published. Confirm the wording or supply numbers (`lib/faq.ts`).
 - [ ] Each state's brokerage name, office address and licence disclosure (footer).
 - [ ] Robin Keefover's permission to be featured.
 - [ ] Reply method and timing after a Move Planner request.
-- [ ] Rebuild `public/llms.txt` after data changes: `node --experimental-strip-types scripts/build-llms.mjs`.
+- [ ] `llms.txt` is generated from the facts files and served in live mode only. Nothing to rebuild by hand.
