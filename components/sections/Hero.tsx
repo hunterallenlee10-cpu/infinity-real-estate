@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Phone } from "lucide-react";
 import { MatchButton } from "../MatchButton";
 import { RooflineFrame } from "../RooflineFrame";
@@ -5,7 +6,7 @@ import { HeroRoute } from "./HeroRoute";
 import { agentBySlug } from "@/lib/agents";
 import { business } from "@/lib/business";
 
-// Five prints on a contour field. One DOM: a peeking horizontal row on mobile, an overlapping cluster on desktop.
+// Five prints on a contour field, all real faces, each linking to that agent's page. One DOM: a peeking horizontal row on mobile, an overlapping cluster on desktop.
 const CLUSTER = [
   {
     slug: "ellie-plante",
@@ -38,8 +39,8 @@ const CLUSTER = [
     sizes: "(min-width: 1024px) 170px, 132px",
   },
   {
-    slug: "peg-steich",
-    caption: "Peg Steich · MD",
+    slug: "breanna-freeburg-smith",
+    caption: "Breanna Freeburg-Smith · IL",
     desk: "lg:absolute lg:left-[1%] lg:top-[5%] lg:z-30 lg:w-[25%] lg:-rotate-[2deg]",
     mob: "w-[132px] md:w-[128px]",
     sizes: "132px",
@@ -49,7 +50,7 @@ const CLUSTER = [
 export function Hero() {
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
-      <div className="wrap grid grid-cols-1 items-center gap-10 pt-3 pb-16 sm:pt-6 lg:grid-cols-12 lg:gap-8 lg:pt-16 lg:pb-28">
+      <div className="wrap grid grid-cols-1 items-center gap-8 pt-3 pb-4 sm:gap-10 sm:pt-6 sm:pb-16 lg:grid-cols-12 lg:gap-8 lg:pt-16 lg:pb-28">
         {/* Type */}
         <div className="hero-head relative z-10 min-w-0 lg:col-span-6">
           {/* One h1: their own line large, then the what-and-where line in plain sentence case. */}
@@ -97,14 +98,9 @@ export function Hero() {
               const a = agentBySlug(c.slug)!;
               return (
                 <li key={c.slug} className={`shrink-0 snap-start ${c.mob} ${c.desk}`}>
-                  <RooflineFrame
-                    agent={a}
-                    mat
-                    sizes={c.sizes}
-                    preload={"preload" in c}
-                    monogramSize="md"
-                    caption={c.caption}
-                  />
+                  <Link href={`/agents/${a.slug}`} className="block transition-transform duration-200 hover:-translate-y-0.5">
+                    <RooflineFrame agent={a} mat sizes={c.sizes} preload={"preload" in c} monogramSize="md" caption={c.caption} />
+                  </Link>
                 </li>
               );
             })}

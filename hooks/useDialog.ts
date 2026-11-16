@@ -14,7 +14,7 @@ export function useDialog(ref: RefObject<HTMLElement | null>, onClose: () => voi
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const first = el?.querySelector<HTMLElement>("[data-autofocus]") ?? el?.querySelector<HTMLElement>(FOCUSABLE);
-    first?.focus();
+    first?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();

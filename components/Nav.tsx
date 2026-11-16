@@ -30,7 +30,7 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
     const burger = burgerRef.current;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    sheetRef.current?.querySelector<HTMLElement>("button")?.focus();
+    sheetRef.current?.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenu(false);
       if (e.key === "Tab" && sheetRef.current) {
@@ -50,7 +50,7 @@ export function Nav({ animateMark = false }: { animateMark?: boolean }) {
     return () => {
       document.body.style.overflow = prev;
       document.removeEventListener("keydown", onKey);
-      burger?.focus();
+      burger?.focus({ preventScroll: true });
     };
   }, [menu]);
 

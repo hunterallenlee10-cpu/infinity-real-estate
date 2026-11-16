@@ -47,7 +47,7 @@ Dated patterns we avoid: drone or stock-house video heroes, count-up statistics,
 | 7MB to 111MB sent to phones | Static pages, sized images, two fonts, motion in two places |
 | Lead capture before trust | The show-stopper is ungated; nothing asks for details before giving a result |
 | No small firm presents distant regions as one brand | The Roofline Route through NV, IL, PA and MD, and a local front door for each |
-| Reviews without source or date | Empty labelled slots until real reviews arrive, shown with month, year and source |
+| Reviews without source or date | No reviews shown until real ones arrive. When they do, each carries its month, year and source |
 
 ## Design: Ink and Contour
 

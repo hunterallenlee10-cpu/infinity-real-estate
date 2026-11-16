@@ -97,11 +97,11 @@ export function AgentMatch({ initialState = null }: { initialState?: StateCode |
                   />
                   <span
                     className={`flex h-full items-center gap-2 rounded-[6px] border p-2.5 transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink min-[380px]:gap-3 min-[380px]:p-3 ${
-                      on ? "border-ink bg-plat shadow-[inset_0_0_0_1px_var(--color-ink)]" : "border-rule bg-plat hover:border-ink"
+                      on ? "border-ink bg-ink text-paper" : "border-rule bg-plat text-ink hover:border-ink"
                     }`}
                   >
-                    <StateOutline slug={mk.slug} className="hidden h-9 w-9 shrink-0 min-[360px]:block min-[380px]:h-11 min-[380px]:w-11" />
-                    <span className="min-w-0 text-[0.9375rem] leading-tight font-medium text-ink min-[380px]:text-[1rem]">{mk.name}</span>
+                    <StateOutline slug={mk.slug} className={`hidden h-9 w-9 shrink-0 min-[360px]:block min-[380px]:h-11 min-[380px]:w-11 ${on ? "[&_path]:stroke-paper" : ""}`} />
+                    <span className="min-w-0 text-[0.9375rem] leading-tight font-medium min-[380px]:text-[1rem]">{mk.name}</span>
                   </span>
                 </label>
               );
@@ -121,6 +121,13 @@ export function AgentMatch({ initialState = null }: { initialState?: StateCode |
                 ))}
               </div>
             </div>
+          )}
+          {/* Phones only: results sit below the steps, so confirm the tap and offer a jump straight to them. */}
+          {ranked && market && (
+            <button type="button" onClick={toResults} className="btn btn-ghost mt-4 w-full bg-plat lg:hidden">
+              See {ranked.results.length === 1 ? "your" : `your ${ranked.results.length}`} {market.name} {ranked.results.length === 1 ? "agent" : "agents"}
+              <ArrowDown aria-hidden="true" size={18} strokeWidth={1.5} />
+            </button>
           )}
         </Step>
 
@@ -144,13 +151,6 @@ export function AgentMatch({ initialState = null }: { initialState?: StateCode |
           </div>
         </Step>
 
-        {/* Phones only: the results sit below the three steps, so say so and offer a jump. */}
-        {ranked && market && (
-          <button type="button" onClick={toResults} className="btn btn-ink w-full lg:hidden">
-            See {ranked.results.length === 1 ? "your" : `your ${ranked.results.length}`} {market.name} {ranked.results.length === 1 ? "agent" : "agents"}
-            <ArrowDown aria-hidden="true" size={18} strokeWidth={1.5} />
-          </button>
-        )}
       </form>
 
       <div ref={resultsRef} className="min-w-0 scroll-mt-24 lg:col-span-7" aria-live="polite">
@@ -187,9 +187,15 @@ export function AgentMatch({ initialState = null }: { initialState?: StateCode |
           </div>
         ) : (
           <div>
-            <p className="mb-4 font-medium text-ink">
+            <p className="font-medium text-ink">
               {ranked.exact ? `${market.name} agents${filtered ? ", best match first" : ""}` : "Closest matches"}
             </p>
+            {!ranked.exact && (
+              <p className="mt-1 text-[0.9375rem] text-muted">
+                No {market.name} bio mentions exactly that. These are the {market.name} agents, closest first.
+              </p>
+            )}
+            <div className="mb-4" />
             <LazyMotion features={loadFeatures} strict>
               <ul className="space-y-4">
                 <AnimatePresence initial={false} mode="popLayout">
@@ -222,7 +228,7 @@ export function AgentMatch({ initialState = null }: { initialState?: StateCode |
           </div>
         )}
         <p className="mt-5 text-[0.9375rem] text-muted">
-          Matches come from each agent&rsquo;s published bio. Every Infinity agent can help with any move in their state.
+          Matches come from each agent&rsquo;s published bio. It is not a ranking: you can call any agent in your state.
         </p>
       </div>
     </div>

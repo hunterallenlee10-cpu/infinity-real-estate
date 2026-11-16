@@ -16,9 +16,19 @@ const LAYOUT: Record<Market["code"], { tile: string; outline: string }> = {
 // Bento order: Nevada (largest, five agents) first, then PA, IL, MD.
 const BENTO = (["NV", "PA", "IL", "MD"] as const).map((c) => markets.find((m) => m.code === c)!);
 
+// One line per market, each from that state's own published facts. DRAFT: recount once the roster is confirmed.
 function intro(m: Market) {
-  if (m.code === "MD") return "Looking for a Frederick County MD real estate agent? We serve Washington and Frederick counties.";
-  return `Looking for a ${m.phrase}? We serve ${m.serviceArea}.`;
+  const n = agentsInState(m.code).length;
+  switch (m.code) {
+    case "NV":
+      return `${m.serviceArea}. ${n} agents, including a luxury home advisor and a certified Veterans Association Representative.`;
+    case "IL":
+      return `${m.serviceArea}. ${n} brokers, with service in Greek and Polish.`;
+    case "PA":
+      return `${m.serviceArea}. ${n} agents, one with 30 years in the home remodeling and repairs business.`;
+    default:
+      return `${m.serviceArea}. Peg Steich, licensed in Maryland, 11.5+ years.`;
+  }
 }
 
 export function MarketTiles({ headingLevel = 3 }: { headingLevel?: 2 | 3 }) {

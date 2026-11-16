@@ -4,12 +4,12 @@ import { MatchButton } from "../MatchButton";
 import type { Plan } from "../MovePlanner/types";
 
 const ROWS: { plan: Plan; title: string; text: string }[] = [
-  { plan: "buying", title: "Buying", text: "We guide you through every step, with an agent who knows the street." },
+  { plan: "buying", title: "Buying", text: "We guide you through every step of the process." },
   { plan: "selling", title: "Selling", text: "Clear communication from list price to closing." },
   {
     plan: "both",
     title: "Selling and buying at once",
-    text: "One firm on both sides of your move, so the dates line up.",
+    text: "The same firm for the sale and the purchase.",
   },
 ];
 

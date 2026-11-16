@@ -62,8 +62,7 @@ export function RobinCard() {
       <div>
         <p className="font-medium text-ink">Heading to Myrtle Beach?</p>
         <p className="text-[0.9375rem] text-muted">
-          Robin Keefover started with Infinity in Pennsylvania and now specializes in oceanfront condos and beach homes in
-          Myrtle Beach, SC.
+          Robin Keefover is now a Myrtle Beach, SC, REALTOR specializing in oceanfront condos and beach homes. She still welcomes referrals from her Pennsylvania clients and friends.
         </p>
         <a href={referral.tel} className="mt-1 inline-flex min-h-11 items-center gap-1.5 font-medium text-ink underline underline-offset-4">
           <Phone aria-hidden="true" size={15} strokeWidth={1.5} /> Call Robin {referral.phoneDisplay}

@@ -18,8 +18,7 @@ export function ReferralCard({ className = "" }: { className?: string }) {
           Moving to the coast?
         </h3>
         <p className="mt-2 max-w-[60ch] text-text">
-          Heading to Myrtle Beach? Robin Keefover, who started with Infinity in Pennsylvania, now specializes in oceanfront
-          condos and beach homes in Myrtle Beach, SC.
+          Heading to Myrtle Beach? Robin Keefover is now a Myrtle Beach, SC, REALTOR specializing in oceanfront condos and beach homes. She still welcomes referrals from her Pennsylvania clients and friends.
         </p>
       </div>
       <a href={referral.tel} className="btn btn-ghost col-span-2 !whitespace-normal md:col-span-1 md:col-start-2 md:justify-self-start lg:col-start-auto">

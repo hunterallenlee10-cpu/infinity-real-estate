@@ -150,6 +150,12 @@ export function PlannerFlow({
           <dd className="text-ink">{contactAgent ? contactAgent.name : "Infinity main line"}</dd>
           <dt className="text-muted">Reach me by</dt>
           <dd className="text-ink capitalize">{a.reach}</dd>
+          {a.notes.trim() && (
+            <>
+              <dt className="text-muted">Notes</dt>
+              <dd className="text-ink">{a.notes.trim()}</dd>
+            </>
+          )}
         </dl>
         <p className="mt-4 rounded-[6px] border border-dashed border-slate bg-plat p-4 text-[0.9375rem] text-text">{sms}</p>
         <div className="mt-5 grid gap-2.5">
@@ -324,11 +330,11 @@ export function PlannerFlow({
           </a>
         )}
         {step < 4 ? (
-          <button type="button" onClick={() => canNext && go(step + 1)} disabled={!canNext} className="btn btn-ink !min-h-12 disabled:cursor-not-allowed disabled:opacity-40">
+          <button key="next" type="button" onClick={() => canNext && go(step + 1)} disabled={!canNext} className="btn btn-ink !min-h-12 disabled:cursor-not-allowed disabled:opacity-40">
             Next
           </button>
         ) : (
-          <button type="submit" form={`${uid}-form`} className="btn btn-ink !min-h-12">
+          <button key="review" type="submit" form={`${uid}-form`} className="btn btn-ink !min-h-12">
             Review my request
           </button>
         )}

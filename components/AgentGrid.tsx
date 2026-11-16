@@ -76,7 +76,7 @@ export function AgentGrid() {
               <AgentCard agent={a} sizes="(min-width: 1024px) 280px, (min-width: 768px) 30vw, 46vw" />
             </li>
           ))}
-          <li className="sheet col-span-2 flex flex-col justify-end p-5 md:col-span-1 md:p-6">
+          <li className="sheet col-span-2 flex flex-col self-start p-5 md:col-span-1 md:p-6">
             <p className="font-display text-[1.375rem] leading-tight font-semibold text-ink md:text-[1.625rem]">Not sure who to call?</p>
             <p className="mt-2 text-[0.9375rem] text-muted">Tell us about the move. We will pick the right person.</p>
             <MatchButton

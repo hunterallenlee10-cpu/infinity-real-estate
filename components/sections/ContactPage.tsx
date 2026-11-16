@@ -76,8 +76,8 @@ export function ContactPage() {
                   <p className="mt-1 text-[0.9375rem] text-muted">{m.serviceArea}</p>
                   <ul className="mt-4 border-t border-rule">
                     {agentsInState(code).map((a) => (
-                      <li key={a.slug} className="flex flex-wrap items-baseline justify-between gap-x-3 border-b border-rule py-3">
-                        <span className="text-ink">{a.name}</span>
+                      <li key={a.slug} className="border-b border-rule py-2.5">
+                        <span className="block text-ink">{a.name}</span>
                         <a
                           href={a.cell ? `tel:${a.cell.e164}` : business.phone.tel}
                           className="inline-flex min-h-11 items-center font-medium text-ink underline underline-offset-4"

@@ -20,13 +20,13 @@ const content: ServiceContent = {
   schemaName: "Seller representation",
   schemaDescription: "A local agent who handles listing and selling a home, with clear communication from list price to closing.",
   askTitle: "Who to ask for.",
-  askLead: "Every agent can list a home in their state. These are the things their own bios say they know best.",
+  askLead: "You can call any agent in your state. These are the things their own bios say they know best.",
   groups: sellGroups,
   stepsTitle: "How selling with Infinity works.",
   steps: [
     { t: "Tell us about the home.", d: "Where it is, and when you want to move." },
     { t: "Meet your listing agent.", d: "One local person, from list price to closing." },
-    { t: "List, and stay in the loop.", d: "You always know what is happening next." },
+    { t: "List, and stay in the loop.", d: "Our communication is always clear." },
   ],
   faq: sellFaq,
   ownWords: [

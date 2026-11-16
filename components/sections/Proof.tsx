@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { IS_LIVE, business } from "@/lib/business";
+import { business } from "@/lib/business";
 
 const VALUES = [
   "Authentic, conscientious, and thorough representation.",
@@ -8,25 +8,7 @@ const VALUES = [
   "Each client is treated as an individual.",
 ];
 
-/** Empty, labelled slots. No names, stars, quotes or stories are invented. Hidden in live mode. */
-export function ReviewSlots() {
-  if (IS_LIVE) return null;
-  return (
-    <div data-placeholder="reviews" className="mt-12 rounded-[6px] border border-dashed border-slate p-5 md:p-7">
-      <p className="font-medium text-ink">Your Google reviews go here</p>
-      <p className="mt-1 max-w-[60ch] text-[0.9375rem] text-muted">
-        Real reviews will be shown as plain text with the month and year, linked to the profile they came from. Nothing is
-        shown until the firm supplies them.
-      </p>
-      <ul className="mt-5 hidden gap-3 sm:grid sm:grid-cols-3" aria-hidden="true">
-        {[0, 1, 2].map((i) => (
-          <li key={i} className="h-24 rounded-[6px] border border-dashed border-rule bg-plat" />
-        ))}
-      </ul>
-    </div>
-  );
-}
-
+// DRAFT: no reviews are shown until the firm supplies real ones (plain text, month and year, linked to the source).
 export function Proof() {
   return (
     <section aria-labelledby="proof-title" className="section border-t border-rule">
@@ -56,7 +38,6 @@ export function Proof() {
             ))}
           </ul>
         </div>
-        <ReviewSlots />
       </div>
     </section>
   );

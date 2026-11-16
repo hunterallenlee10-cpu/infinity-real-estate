@@ -20,9 +20,9 @@ export const metadata = pageMeta({
 
 const VALUES = [
   { t: "Authentic, conscientious, and thorough representation.", d: "The firm's core value, in its own words." },
-  { t: "Our communication is always clear.", d: "You always know what is happening next." },
+  { t: "Our communication is always clear.", d: "Stated on their About page, and worth holding them to." },
   { t: "Each client is treated as an individual.", d: "One local agent, start to finish." },
-  { t: "We can quickly wear both hats, a listing agent and a buyer’s agent.", d: "One firm on both sides of your move." },
+  { t: "We can quickly wear both hats, a listing agent and a buyer’s agent.", d: "The same firm for the sale and the purchase." },
 ];
 
 export default function AboutPage() {

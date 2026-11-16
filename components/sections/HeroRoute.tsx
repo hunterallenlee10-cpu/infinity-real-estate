@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 // The Roofline Route: the logo's roofline draws large and faint behind the headline, then a single
 // Roof Clay line runs from its peak, down the roof, and on through NV, IL, PA and MD (west to east),
 // finishing under the headline. Pure SVG + CSS (stroke-dashoffset), plays once, no layout shift.
@@ -6,13 +8,13 @@
 type Variant = { lines: number; fs: number; key: "wide" | "narrow" };
 
 const LH = 1.04;
-const PEAK = { x: 30, y: 4 - 33 * 0.537 }; // same 0.537 pitch as the logo
-const EAVE = { x: -3, y: 4 };
-const PINS: { code: string; x: number; wave: number }[] = [
-  { code: "NV", x: 12, wave: -1.4 },
-  { code: "IL", x: 38, wave: 1.2 },
-  { code: "PA", x: 64, wave: -1.2 },
-  { code: "MD", x: 88, wave: 1 },
+const PEAK = { x: 30, y: 1.5 - 33 * 0.537 }; // same 0.537 pitch as the logo
+const EAVE = { x: -3, y: 1.5 };
+const PINS: { code: string; x: number; wave: number; slug: string; name: string }[] = [
+  { code: "NV", x: 12, wave: -1.4, slug: "nevada", name: "Nevada" },
+  { code: "IL", x: 38, wave: 1.2, slug: "illinois", name: "Illinois" },
+  { code: "PA", x: 64, wave: -1.2, slug: "pennsylvania", name: "Pennsylvania" },
+  { code: "MD", x: 88, wave: 1, slug: "maryland", name: "Maryland" },
 ];
 
 export function routeY(v: Variant) {
@@ -47,11 +49,12 @@ export function HeroRoute({ variant }: { variant: Variant }) {
   const top = -20;
   const height = g.y + 8 - top;
   return (
-    <span aria-hidden="true" className={`hero-route hero-route--${variant.key}`}>
+    <span className={`hero-route hero-route--${variant.key}`}>
       <svg
         viewBox={`-8 ${top} 116 ${height}`}
         style={{ left: "-8cqi", top: `${top}cqi`, width: "116cqi", height: `${height}cqi` }}
         className="pointer-events-none absolute overflow-visible"
+        aria-hidden="true"
         focusable="false"
       >
         <path
@@ -84,17 +87,19 @@ export function HeroRoute({ variant }: { variant: Variant }) {
         ))}
       </svg>
       {PINS.map((p) => (
-        <span
+        <Link
           key={p.code}
-          className="pin label absolute -translate-x-1/2 text-[0.75rem] leading-none text-muted"
+          href={`/markets/${p.slug}`}
+          aria-label={`${p.name} agents and homes`}
+          className="pin label pointer-events-auto absolute -translate-x-1/2 px-3 pt-3 pb-4 text-[0.75rem] leading-none text-muted underline-offset-4 hover:text-ink hover:underline"
           style={{
             left: `${p.x}cqi`,
-            top: `calc(${g.y}cqi + 12px)`,
+            top: `${g.y}cqi`,
             ["--delay" as string]: `${Math.round(ROOF_MS + g.frac(p.x) * ROUTE_MS * 0.85)}ms`,
           }}
         >
           {p.code}
-        </span>
+        </Link>
       ))}
     </span>
   );

@@ -23,7 +23,7 @@ export default function AgentsPage() {
         display="The people you will actually talk to."
         headline="Infinity Real Estate agents and brokers in Pennsylvania, Illinois, Nevada and Maryland."
         // DRAFT: recount once the roster is confirmed
-        lead={`${AGENT_COUNT} local agents. Every one has a direct number. Pick a state, read their story in their own words, then call or text.`}
+        lead={`${AGENT_COUNT} local agents. Pick a state, read their story, then call or text them directly.`}
       >
         <MatchButton prefill={{ source: "agents" }} />
       </PageHero>

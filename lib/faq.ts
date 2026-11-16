@@ -8,8 +8,8 @@ export const faq: { q: string; a: string }[] = [
     a: "Pennsylvania: Central Pennsylvania and the Philadelphia area. Illinois: Chicagoland and surrounding areas. Nevada: Las Vegas, Henderson, Boulder City, Pahrump, and surrounding areas. Maryland: Washington and Frederick counties.",
   },
   {
-    q: "Can one agent help me sell and buy at the same time?",
-    a: "Yes. We can quickly wear both hats, a listing agent and a buyer’s agent. One firm on both sides of your move, so the dates line up.",
+    q: "Can you help me sell and buy at the same time?",
+    a: "Yes. We can quickly wear both hats, a listing agent and a buyer’s agent.",
   },
   {
     q: "How do I find the right agent for me?",
@@ -17,7 +17,7 @@ export const faq: { q: string; a: string }[] = [
   },
   {
     q: "Do you work with investors and rental properties?",
-    a: "Yes. In Maryland, Peg Steich owns several rental properties. In Pennsylvania, Joe Geeting has experience in residential and commercial sales and leasing. In Illinois, Breanna Freeburg-Smith works with rentals and Sylwia Baker with distressed property. In Nevada, Ellie Plante loves to work with investors and Jenny Lynn Johnston has sold investment properties.",
+    a: "Yes. In Maryland, Peg Steich owns several rental properties. In Pennsylvania, Joe Geeting has experience in residential and commercial sales and leasing. In Illinois, Breanna Freeburg-Smith works with rentals and Sylwia Baker helps buyers looking for distressed property. In Nevada, Ellie Plante loves to work with investors and Jenny Lynn Johnston has sold investment properties.",
   },
   {
     q: "Do any agents speak languages other than English?",
@@ -43,8 +43,11 @@ export function marketFaq(m: Market): { q: string; a: string }[] {
   const out = [
     { q: `Which parts of ${m.name} do you cover?`, a: `${m.serviceArea}.` },
     {
-      q: `Who are your ${m.name} agents?`,
-      a: `${names}. Call or text any of them directly, or use the Move Planner and we will match you.`,
+      q: team.length === 1 ? `Who is your ${m.name} agent?` : `Who are your ${m.name} agents?`,
+      a:
+        team.length === 1
+          ? `${names}. Call or text directly, or use the Move Planner.`
+          : `${names}. Call or text whoever fits, or use the Move Planner and we will match you.`,
     },
     {
       q: `Can I search ${m.name} listings?`,
@@ -71,14 +74,14 @@ export function marketFaq(m: Market): { q: string; a: string }[] {
 export const buyFaq = [
   {
     q: "What does it cost to work with a buyer\u2019s agent?",
-    a: "Infinity has not published its fees. Your agent will explain how they are paid on your first call, before you sign anything.",
+    a: "Infinity has not published its fees. Ask your agent how they are paid when you first talk.",
   },
   {
     q: "Do you work with first-time buyers?",
     a: "Yes. In Nevada, Teresa Gallegos finds joy in handing over the keys for the first time. In Illinois, Sylwia Baker helps first-time buyers find their way.",
   },
   {
-    q: "Can one agent help me sell my home and buy the next one?",
+    q: "Can you help me sell my home and buy the next one?",
     a: "Yes. We can quickly wear both hats, a listing agent and a buyer\u2019s agent. In Nevada, Teresa Gallegos\u2019s specialty is the move-up buyer.",
   },
   {
@@ -90,7 +93,7 @@ export const buyFaq = [
 export const sellFaq = [
   {
     q: "What does it cost to sell with Infinity?",
-    a: "Infinity has not published its fees. Your agent will explain the commission and what it covers on your first call, before you sign anything.",
+    a: "Infinity has not published its fees. Ask your agent about commission and what it covers when you first talk.",
   },
   {
     q: "Can you spot problems before I list?",
@@ -98,10 +101,10 @@ export const sellFaq = [
   },
   {
     q: "Can I sell and buy at the same time?",
-    a: "Yes. We can quickly wear both hats, a listing agent and a buyer\u2019s agent. One firm on both sides of your move, so the dates line up.",
+    a: "Yes. We can quickly wear both hats, a listing agent and a buyer\u2019s agent.",
   },
   {
-    q: "Do you handle short sales and distressed property?",
-    a: "Yes. In Illinois, Breanna Freeburg-Smith has worked in foreclosures and short sales, and Sylwia Baker works with distressed property.",
+    q: "Do you handle short sales and foreclosures?",
+    a: "In Illinois, Breanna Freeburg-Smith has worked in traditional sales, foreclosures, short sales, new builds, and rentals.",
   },
 ];

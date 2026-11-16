@@ -20,7 +20,7 @@ const content: ServiceContent = {
   schemaName: "Buyer representation",
   schemaDescription: "A local agent who guides buyers through every step of finding and buying a home.",
   askTitle: "Who to ask for.",
-  askLead: "Every agent can help with any purchase in their state. These are the things their own bios say they know best.",
+  askLead: "You can call any agent in your state. These are the things their own bios say they know best.",
   groups: buyGroups,
   stepsTitle: "How buying with Infinity works.",
   steps: [

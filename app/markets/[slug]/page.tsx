@@ -50,7 +50,7 @@ export default async function MarketPage({ params }: PageProps<"/markets/[slug]"
         art={<StateOutline slug={m.slug} contour strokeWidth={1.75} className="hidden h-56 w-56 shrink-0 lg:block xl:h-64 xl:w-64" />}
       >
         <MatchButton prefill={{ state: m.code, source: `market-${m.slug}` }} className="btn btn-ink w-full sm:w-auto">
-          Match Me With {one ? team[0].first : `a ${m.name} Agent`}
+          Match Me With {one ? team[0].first : `${/^[AEIOU]/.test(m.name) ? "an" : "a"} ${m.name} Agent`}
         </MatchButton>
         <a
           href={m.idx}
@@ -72,16 +72,10 @@ export default async function MarketPage({ params }: PageProps<"/markets/[slug]"
                 {one ? `Your ${m.name} agent.` : `Your ${m.name} agents.`}
               </h2>
               <p className="mt-3 text-[length:var(--text-lead)] text-muted">
-                {one ? "Call or text directly." : "Each has a direct number. Call or text whoever fits."} The chips come from their own bios.
+                {one ? "Call or text directly." : "Call or text whoever fits."} The chips come from their own bios.
               </p>
               <p className="mt-6 font-medium text-ink">Areas</p>
-              <ul className="mt-2 flex flex-wrap gap-1.5">
-                {m.areas.map((a) => (
-                  <li key={a} className="chip bg-plat">
-                    {a}
-                  </li>
-                ))}
-              </ul>
+              <p className="mt-1 text-muted">{m.areas.join(", ")}.</p>
             </div>
           </div>
           <ul className="space-y-4 lg:col-span-8">

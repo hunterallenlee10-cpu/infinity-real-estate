@@ -12,7 +12,7 @@ export const NEED_OPTIONS: { value: Need; label: string }[] = [
   { value: "luxury", label: "Luxury" },
   { value: "commercial", label: "Commercial or leasing" },
   { value: "new-construction", label: "New construction" },
-  { value: "veteran", label: "Veteran or VA buyer" },
+  { value: "veteran", label: "Veteran or active duty" },
 ];
 
 export const NEED_LABEL = Object.fromEntries(NEED_OPTIONS.map((n) => [n.value, n.label])) as Record<Need, string>;

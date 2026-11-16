@@ -29,9 +29,9 @@ export async function generateMetadata({ params }: PageProps<"/agents/[slug]">):
   const a = agentBySlug(slug);
   if (!a) return {};
   const m = marketByCode(a.state);
-  const known = a.highlights[0]?.toLowerCase();
   const role = ROLE[a.state] === "broker" ? "Broker" : "Agent";
-  let description = `${shortName(a)} is an Infinity Real Estate ${ROLE[a.state]} in ${m.name}${known ? `, known for ${known}` : ""}. Read ${a.first}'s story, then call or text directly.`;
+  const notes = a.highlights.slice(0, 2).join(". ");
+  let description = `${shortName(a)} is an Infinity Real Estate ${ROLE[a.state]} in ${m.name}. ${notes}. Read ${a.first}'s story, then call or text directly.`;
   if (description.length > 158) description = `${shortName(a)} is an Infinity Real Estate ${ROLE[a.state]} in ${m.name}. Read ${a.first}'s story, then call or text directly.`;
   return pageMeta({
     title: `${shortName(a)}, ${m.name} Real Estate ${role} | Infinity`,
@@ -103,9 +103,10 @@ export default async function AgentPage({ params }: PageProps<"/agents/[slug]">)
               {a.quote && (
                 <blockquote className="font-display border-l-2 border-clay pl-5 text-[length:var(--text-h3)] leading-snug text-ink italic md:text-[1.875rem]">
                   {quoteText(a.quote)}
+                  <footer className="mt-2 font-sans text-[0.875rem] text-muted not-italic">From {a.first}&rsquo;s published bio</footer>
                 </blockquote>
               )}
-              <h2 className="mt-10 text-[length:var(--text-h3)]">In {a.first}&rsquo;s words</h2>
+              <h2 className="mt-10 text-[length:var(--text-h3)]">{a.first}&rsquo;s story</h2>
               <div className="mt-4 max-w-[66ch] space-y-4 text-[1.0625rem] leading-relaxed text-text">
                 {a.bio.map((p, i) => (
                   <p key={i}>{p.replace(/\s{2,}/g, " ")}</p>

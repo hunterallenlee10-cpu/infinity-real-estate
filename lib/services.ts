@@ -34,7 +34,7 @@ export const buyGroups: AskGroup[] = [
   },
   {
     label: "Relocating",
-    agents: [{ slug: "ellie-plante", why: "Works with families relocating from in or out of state." }],
+    agents: [{ slug: "ellie-plante", why: "Works with people relocating from in or out of state." }],
   },
   {
     label: "A second pair of eyes on the house",
@@ -63,18 +63,15 @@ export const sellGroups: AskGroup[] = [
   },
   {
     label: "Selling and buying at once",
-    agents: [{ slug: "teresa-gallegos", why: "Her specialty is the move-up buyer: sell the current home and trade up." }],
+    agents: [{ slug: "teresa-gallegos", why: "Her specialty is the move-up buyer, selling the current home and trading up." }],
   },
   {
     label: "Spotting problems before you list",
     agents: [{ slug: "fred-shibler", why: "30 years in remodeling and repairs. He can spot it right away." }],
   },
   {
-    label: "Short sales and distressed property",
-    agents: [
-      { slug: "breanna-freeburg-smith", why: "Has worked in foreclosures and short sales." },
-      { slug: "sylwia-baker", why: "Works with distressed property." },
-    ],
+    label: "Short sales and foreclosures",
+    agents: [{ slug: "breanna-freeburg-smith", why: "Has worked in foreclosures and short sales." }],
   },
   {
     label: "Rental and investment property",

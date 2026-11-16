@@ -56,7 +56,7 @@ export default function SearchPage() {
           <div className="sheet mt-10 grid items-center gap-5 p-5 md:grid-cols-[1fr_auto] md:p-7">
             <div>
               <h2 className="text-[length:var(--text-h3)]">Rather have a short list?</h2>
-              <p className="mt-1 max-w-[56ch] text-muted">Tell a local agent what you are looking for and where. They will send the homes worth seeing.</p>
+              <p className="mt-1 max-w-[56ch] text-muted">Tell a local agent what you are looking for and where, and ask for a short list.</p>
             </div>
             <MatchButton prefill={{ plan: "buying", source: "search" }} className="btn btn-ink w-full md:w-auto" />
           </div>

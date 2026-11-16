@@ -37,8 +37,13 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 88px;
+    /* No scroll-padding here: it made the browser scroll the page whenever a button in the sticky
+       header took focus (tapping the menu button jumped the page). Anchor targets carry scroll-margin instead. */
     -webkit-text-size-adjust: 100%;
+  }
+  /* Anchor and scroll targets stop below the sticky header. Scoped to main so header controls are untouched. */
+  main [id] {
+    scroll-margin-top: 88px;
   }
   body {
     background: var(--color-paper);
@@ -291,7 +296,7 @@
 .hero-title {
   display: block;
   position: relative;
-  margin-top: 15cqi;
+  margin-top: 17cqi;
   padding-bottom: 11.5cqi;
   font-size: 12.6cqi;
   line-height: 1.04;
@@ -392,6 +397,7 @@
     padding-block: 3px;
     scrollbar-width: none;
     scroll-snap-type: x proximity;
+    scroll-padding-inline: 16px;
   }
   .chip-row::-webkit-scrollbar {
     display: none;
